@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cli7mrr62vsu8"]
+
+[ext_resource type="Script" uid="uid://8dgjb76it6uh" path="res://gameplay/entities/grabbable/grabbable.gd" id="1_n1hsd"]
+[ext_resource type="Texture2D" uid="uid://btls516r2v8by" path="res://assets/textures/shapes/circle.png" id="1_n5741"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bvnae"]
+radius = 7.0
+
+[node name="Grabbable" type="Area2D" unique_id=626181807]
+script = ExtResource("1_n1hsd")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=437790380]
+modulate = Color(0.34509805, 0.80784315, 1, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_n5741")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2062240275]
+shape = SubResource("CircleShape2D_bvnae")

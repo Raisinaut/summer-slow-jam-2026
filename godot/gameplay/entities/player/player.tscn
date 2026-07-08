@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://otvfaasrtjnd"]
+
+[ext_resource type="Texture2D" uid="uid://btls516r2v8by" path="res://assets/textures/shapes/circle.png" id="1_7dxq2"]
+[ext_resource type="Script" uid="uid://v6pr2dfkf8yp" path="res://gameplay/entities/player/player.gd" id="1_ilcey"]
+[ext_resource type="Script" uid="uid://cbdb3fumrvep3" path="res://gameplay/entities/player/grab_pivot.gd" id="3_uaclk"]
+[ext_resource type="Script" uid="uid://c7wkeqwddx2pb" path="res://gameplay/entities/player/detection_area.gd" id="4_dfuu5"]
+
+[sub_resource type="Animation" id="Animation_ilcey"]
+resource_name = "move_down"
+
+[sub_resource type="Animation" id="Animation_uaclk"]
+resource_name = "move_left"
+
+[sub_resource type="Animation" id="Animation_dfuu5"]
+resource_name = "move_right"
+
+[sub_resource type="Animation" id="Animation_c4ln4"]
+resource_name = "move_up"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f8uhf"]
+_data = {
+&"walk_down": SubResource("Animation_ilcey"),
+&"walk_left": SubResource("Animation_uaclk"),
+&"walk_right": SubResource("Animation_dfuu5"),
+&"walk_up": SubResource("Animation_c4ln4")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bvnae"]
+
+[node name="Player" type="CharacterBody2D" unique_id=734241059]
+script = ExtResource("1_ilcey")
+base_speed = 200.0
+accel = 1500.0
+decel = 1000.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=532982206]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_7dxq2")
+
+[node name="SpriteAnimator" type="AnimationPlayer" parent="." unique_id=1298019651]
+libraries/ = SubResource("AnimationLibrary_f8uhf")
+
+[node name="Grabber" type="Node2D" parent="." unique_id=1922635858]
+script = ExtResource("3_uaclk")
+
+[node name="DetectionArea" type="Area2D" parent="Grabber" unique_id=297045627]
+unique_name_in_owner = true
+position = Vector2(20, 0)
+script = ExtResource("4_dfuu5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grabber/DetectionArea" unique_id=406254952]
+shape = SubResource("CircleShape2D_bvnae")
+
+[node name="GrabOrigin" type="Node2D" parent="Grabber/DetectionArea" unique_id=1485644004]
+unique_name_in_owner = true

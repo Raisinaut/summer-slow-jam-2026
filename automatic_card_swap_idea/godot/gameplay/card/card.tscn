@@ -2,37 +2,19 @@
 
 [ext_resource type="Script" uid="uid://dcpka2yohlos6" path="res://gameplay/card/card.gd" id="1_8mlfh"]
 [ext_resource type="Texture2D" uid="uid://nhbem8oawukj" path="res://icon.svg" id="1_tked8"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8mlfh"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+[ext_resource type="StyleBox" uid="uid://ckalkq62vh5xt" path="res://theme/card/card_panel.tres" id="2_es77v"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bvnae"]
 
 [node name="Card" type="Node2D" unique_id=38919468]
 script = ExtResource("1_8mlfh")
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=922087994]
+[node name="PressDetection" type="Button" parent="." unique_id=1850993434]
 unique_name_in_owner = true
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -118.0
 offset_top = -179.0
 offset_right = 118.0
 offset_bottom = 179.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_8mlfh")
-
-[node name="PressDetection" type="Button" parent="Panel" unique_id=1850993434]
-unique_name_in_owner = true
-layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_bvnae")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_bvnae")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_bvnae")
@@ -45,7 +27,31 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_bvnae")
 theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_bvnae")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_bvnae")
 
-[node name="Front" type="MarginContainer" parent="Panel" unique_id=1838525817]
+[node name="Visuals" type="Control" parent="." unique_id=779229860]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Visuals" unique_id=922087994]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = -179.0
+offset_right = 118.0
+offset_bottom = 179.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2_es77v")
+
+[node name="Front" type="MarginContainer" parent="Visuals/Panel" unique_id=1838525817]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -54,14 +60,14 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="FrontTexture" type="TextureRect" parent="Panel/Front" unique_id=1437854727]
+[node name="FrontTexture" type="TextureRect" parent="Visuals/Panel/Front" unique_id=1437854727]
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("1_tked8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Back" type="MarginContainer" parent="Panel" unique_id=1880540779]
+[node name="Back" type="MarginContainer" parent="Visuals/Panel" unique_id=1880540779]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -70,10 +76,20 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="BackTexture" type="TextureRect" parent="Panel/Back" unique_id=1920200968]
+[node name="BackTexture" type="TextureRect" parent="Visuals/Panel/Back" unique_id=1920200968]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("1_tked8")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="Shadow" type="Panel" parent="Visuals" unique_id=889229480]
+unique_name_in_owner = true
+modulate = Color(0, 0, 0, 0.40392157)
+z_index = -1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2_es77v")

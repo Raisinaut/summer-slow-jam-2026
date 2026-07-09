@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cs1urvybfac3a"]
+
+[ext_resource type="Script" uid="uid://dy3pxh0p05080" path="res://gameplay/object_mover/object_mover.gd" id="1_giphi"]
+
+[node name="ObjectMover" type="Node2D" unique_id=1050676173]
+script = ExtResource("1_giphi")

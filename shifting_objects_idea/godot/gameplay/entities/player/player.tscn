@@ -5,6 +5,9 @@
 [ext_resource type="Script" uid="uid://cbdb3fumrvep3" path="res://gameplay/entities/player/grab_pivot.gd" id="3_uaclk"]
 [ext_resource type="Script" uid="uid://c7wkeqwddx2pb" path="res://gameplay/entities/player/detection_area.gd" id="4_dfuu5"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_37yhw"]
+radius = 13.0
+
 [sub_resource type="Animation" id="Animation_ilcey"]
 resource_name = "move_down"
 
@@ -28,14 +31,20 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_bvnae"]
 
 [node name="Player" type="CharacterBody2D" unique_id=734241059]
+collision_mask = 5
+motion_mode = 1
 script = ExtResource("1_ilcey")
-base_speed = 200.0
-accel = 1500.0
-decel = 1000.0
+base_speed = 180.0
+accel = 1000.0
+decel = 800.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=532982206]
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_7dxq2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1793048426]
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CircleShape2D_37yhw")
 
 [node name="SpriteAnimator" type="AnimationPlayer" parent="." unique_id=1298019651]
 libraries/ = SubResource("AnimationLibrary_f8uhf")
@@ -46,6 +55,8 @@ script = ExtResource("3_uaclk")
 [node name="DetectionArea" type="Area2D" parent="Grabber" unique_id=297045627]
 unique_name_in_owner = true
 position = Vector2(20, 0)
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("4_dfuu5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Grabber/DetectionArea" unique_id=406254952]

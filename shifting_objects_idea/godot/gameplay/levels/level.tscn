@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://db2ttnosfhd5e"]
+
+[ext_resource type="PackedScene" uid="uid://otvfaasrtjnd" path="res://gameplay/entities/player/player.tscn" id="1_awt3i"]
+[ext_resource type="PackedScene" uid="uid://cli7mrr62vsu8" path="res://gameplay/entities/grabbable/grabbable.tscn" id="2_2qjq1"]
+[ext_resource type="PackedScene" uid="uid://cs1urvybfac3a" path="res://gameplay/object_mover/object_mover.tscn" id="2_35olu"]
+
+[node name="Level" type="Node2D" unique_id=938834686]
+
+[node name="Entities" type="Node2D" parent="." unique_id=1897695270]
+
+[node name="Player" parent="Entities" unique_id=734241059 instance=ExtResource("1_awt3i")]
+
+[node name="ObjectMover" parent="Entities" unique_id=1050676173 instance=ExtResource("2_35olu")]
+
+[node name="Grabbable" parent="Entities/ObjectMover" unique_id=626181807 instance=ExtResource("2_2qjq1")]
+position = Vector2(180, 92)
+
+[node name="Grabbable2" parent="Entities/ObjectMover" unique_id=4962017 instance=ExtResource("2_2qjq1")]
+position = Vector2(154, 42)
+
+[node name="Grabbable3" parent="Entities/ObjectMover" unique_id=906839288 instance=ExtResource("2_2qjq1")]
+position = Vector2(229, 136)
+
+[node name="Grabbable4" parent="Entities/ObjectMover" unique_id=1828274940 instance=ExtResource("2_2qjq1")]
+position = Vector2(129, 113)
+
+[node name="Grabbable5" parent="Entities/ObjectMover" unique_id=258092196 instance=ExtResource("2_2qjq1")]
+position = Vector2(204, 58)
+
+[node name="Grabbable6" parent="Entities/ObjectMover" unique_id=1910429447 instance=ExtResource("2_2qjq1")]
+position = Vector2(97, 76)

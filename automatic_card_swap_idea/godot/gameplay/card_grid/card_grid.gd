@@ -2,19 +2,24 @@
 class_name CardGrid
 extends ReferenceRect
 
+signal matched(correct : bool)
+
 @export_range(0, 1, 1, "or_greater") var columns : int = 4 :
 	set(val): columns = val; check_grid_validity()
 @export_range(0, 1, 1, "or_greater") var rows : int = 3 :
 	set(val): rows = val; check_grid_validity()
-@export var card_scene : PackedScene
 @export var spacing : int = 20
+@export var card_scene : PackedScene
+@export var card_textures : Array[Texture]
 @export var variant_count : int = 4 # must be less than half of the grid size
+
 
 var data_variants : Array[CardData] = []
 var deck : Array[CardData] = []
 var card_coords : Dictionary[Vector2, Card] = {}
 var first_card : Card = null
 var second_card : Card = null
+
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -23,11 +28,17 @@ func _ready() -> void:
 	generate_deck()
 	populate()
 
+
 ## SETUP -----------------------------------------------------------------------
 func generate_data_variants() -> void:
+	card_textures.shuffle()
+	print(card_textures)
+	if variant_count > card_textures.size():
+		push_error("Variant_count should not be greater than the number of card textures")
+		variant_count = card_textures.size()
 	for i in variant_count:
 		var data = CardData.new()
-		data.value = i
+		data.texture = card_textures[i]
 		data_variants.append(data)
 
 func generate_deck() -> void:
@@ -41,7 +52,6 @@ func generate_deck() -> void:
 		data_variants_copy.shuffle()
 		print("select variant")
 		var data = data_variants_copy.pop_back()
-		print(data.value)
 		# create a pair
 		deck.append(data)
 		deck.append(data)
@@ -90,27 +100,22 @@ func fit_vector_proportinally(original: Vector2, target: Vector2) -> Vector2:
 
 # MATCH HANDLING ---------------------------------------------------------------
 func attempt_match(card1 : Card, card2 : Card) -> void:
-	for i in get_children():
-		i.set_interaction_disabled(true)
-	
-	if card1.data.value == card2.data.value:
+	set_all_cards_interaction_disabled(true)
+	var correct : bool = card1.data.texture == card2.data.texture
+	if correct:
 		await get_tree().create_timer(0.5).timeout
 		correct_match()
 		#await get_tree().create_timer(1.0).timeout
 	else:
-		await get_tree().create_timer(0.8).timeout
+		await get_tree().create_timer(0.5).timeout
 		incorrect_match()
-	
-	for i in get_children():
-		i.set_interaction_disabled(false)
+	matched.emit(correct)
+	set_all_cards_interaction_disabled(false)
 
 func correct_match() -> void:
-	# animate
-	first_card.flash().finished.connect(first_card.queue_free)
-	second_card.flash().finished.connect(second_card.queue_free)
-	## delete
-	#first_card.queue_free()
-	#second_card.queue_free()
+	# animate and delete
+	first_card.flash().finished.connect(first_card.disappear)
+	second_card.flash().finished.connect(second_card.disappear)
 	# reset
 	first_card = null
 	second_card = null
@@ -122,10 +127,12 @@ func incorrect_match() -> void:
 	first_card = null
 	second_card = null
 	# animate
-	#first_card.shake()
-	#await second_card.shake().finished
-	await _first_card.flip()
-	await _second_card.flip()
+	_first_card.shake()
+	await _second_card.shake().finished
+	await get_tree().create_timer(0.5).timeout
+	# flip back over
+	_first_card.flip()
+	_second_card.flip()
 
 func _on_card_started_flip(card: Card) -> void:
 	# only consider cards that are flipping toward face up,
@@ -137,6 +144,9 @@ func _on_card_started_flip(card: Card) -> void:
 		second_card = card
 		attempt_match(first_card, second_card)
 
+func set_all_cards_interaction_disabled(state : bool) -> void:
+	for i in get_children():
+		i.set_interaction_disabled(state)
 
 # CHECKS -----------------------------------------------------------------------
 func check_grid_validity() -> void:

@@ -5,18 +5,23 @@ signal started_flip()
 signal ended_flip()
 
 var face_up : bool = false : set = set_face_up
+var size : Vector2 : set = set_size
+var data : CardData = null : set = set_data
+var matched : bool = false
+# TWEENS
 var scale_tween : Tween = null
 var mouseover_tween : Tween = null
 var flash_tween : Tween = null
-var size : Vector2 : set = set_size
+var shake_tween : Tween = null
+# ANIMATION PROPERTIES
 var flip_duration : float = 0.4
-
-var data : CardData = null : set = set_data
+var shake_distance : float = 15
+var shake_duration : float = 0.25
 
 @onready var visuals: Control = %Visuals
 @onready var glow: Panel = %Glow
 @onready var panel: PanelContainer = %Panel
-@onready var shadow: Panel = %Shadow
+@onready var shadow: TextureRect = %Shadow
 @onready var front: MarginContainer = %Front
 @onready var back: MarginContainer = %Back
 @onready var press_detection: Button = %PressDetection
@@ -69,12 +74,33 @@ func _on_press_detection_mouse_exited() -> void:
 	mouseover_tween.tween_property(panel, "offset_transform_position:y", 0, 0.15)
 	mouseover_tween.parallel().tween_property(panel, "offset_transform_scale", Vector2.ONE, 0.15)
 
+func shake() -> Tween:
+	if shake_tween: shake_tween.kill()
+	shake_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
+	shake_tween.tween_property(visuals, "offset_transform_position:x", shake_distance, shake_duration * 0.15)
+	shake_tween.set_ease(Tween.EASE_IN_OUT)
+	shake_tween.tween_property(visuals, "offset_transform_position:x", -shake_distance * 0.75, shake_duration * 0.35)
+	shake_tween.set_ease(Tween.EASE_OUT)
+	shake_tween.tween_property(visuals, "offset_transform_position:x", shake_distance * 0.25, shake_duration * 0.3)
+	shake_tween.set_ease(Tween.EASE_IN)
+	shake_tween.tween_property(visuals, "offset_transform_position:x", 0, shake_duration * 0.25)
+	return shake_tween
+
 func flash() -> Tween:
 	glow.modulate.a = 0.3
 	if flash_tween: flash_tween.kill()
-	flash_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
-	flash_tween.tween_property(glow, "modulate:a", 0.0, 0.8)
+	flash_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
+	flash_tween.tween_property(glow, "modulate:a", 0.0, 0.5)
 	return flash_tween
+
+func disappear() -> Tween:
+	await %WhirlEffect.grow().finished
+	var t = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
+	t.tween_property(visuals, "scale", Vector2.ZERO, 0.7)
+	t.parallel().tween_property(visuals, "rotation", -10, 0.7)
+	await get_tree().create_timer(0.5).timeout
+	%WhirlEffect.shrink().finished.connect(queue_free)
+	return t
 
 func set_interaction_disabled(disabled : bool) -> void:
 	if disabled:
@@ -101,4 +127,4 @@ func set_data(val : CardData) -> void:
 	if not is_node_ready():
 		await ready
 	data = val
-	%TestLabel.text = str(data.value)
+	%FrontTexture.texture = data.texture

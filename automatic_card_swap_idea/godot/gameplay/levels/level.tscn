@@ -1,8 +1,49 @@
 [gd_scene format=3 uid="uid://nkx3pxwjthab"]
 
+[ext_resource type="Texture2D" uid="uid://bv3p38sw3f6mb" path="res://assets/textures/particles/star_07.png" id="1_2qjq1"]
 [ext_resource type="PackedScene" uid="uid://bevgixiukmncn" path="res://gameplay/card_grid/card_grid.tscn" id="1_awt3i"]
 
+[sub_resource type="Curve" id="Curve_4bmxb"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.8338266, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_35olu"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="level" type="Node2D" unique_id=981335232]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=2094685529]
+layer = -10
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=1933859222]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Background" unique_id=630954953]
+modulate = Color(1, 0.7647059, 1, 1)
+position = Vector2(960, 540)
+amount = 50
+texture = ExtResource("1_2qjq1")
+lifetime = 5.0
+preprocess = 5.0
+lifetime_randomness = 0.11
+emission_shape = 3
+emission_rect_extents = Vector2(960, 540)
+direction = Vector2(0, -1)
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+angular_velocity_min = -200.0
+angular_velocity_max = 200.0
+scale_amount_min = 0.02
+scale_amount_max = 0.1
+scale_amount_curve = SubResource("Curve_4bmxb")
+color_ramp = SubResource("Gradient_35olu")
 
 [node name="CardGrid" parent="." unique_id=1332015568 instance=ExtResource("1_awt3i")]
 offset_left = 360.0

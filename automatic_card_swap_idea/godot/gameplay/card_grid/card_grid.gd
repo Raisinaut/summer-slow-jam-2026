@@ -3,7 +3,7 @@ class_name CardGrid
 extends ReferenceRect
 
 signal attempted_match(correct : bool)
-signal finished_match_animation(correct : bool)
+#signal finished_match_animation(correct : bool)
 
 @export_range(0, 1, 1, "or_greater") var columns : int = 4 :
 	set(val): columns = val; check_grid_validity()
@@ -12,10 +12,11 @@ signal finished_match_animation(correct : bool)
 @export var spacing : int = 20
 @export var card_scene : PackedScene
 @export var card_textures : Array[Texture]
-@export var variant_count : int = 4 # must be less than half of the grid size
+@export_range(0, 1, 1, "or_greater") var variant_count_override : int = 0
 
 @onready var cards: Node2D = %Cards
 
+var variant_count : int = 0
 var active_cards : Array[Card] = []
 var data_variants : Array[CardData] = []
 var deck : Array[CardData] = []
@@ -27,12 +28,21 @@ var second_card : Card = null
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
+	initialize_variant_count()
 	generate_data_variants()
 	generate_deck()
 	populate()
 
 
 ## SETUP -----------------------------------------------------------------------
+func initialize_variant_count() -> void:
+	# Default to maximum variants
+	var max_variants = round(max_item_count() / 2.0)
+	variant_count = max_variants
+	# Allow override to anything lower than max
+	if variant_count_override in range(1, max_variants):
+		variant_count = variant_count_override
+
 func generate_data_variants() -> void:
 	card_textures.shuffle()
 	if variant_count > card_textures.size():
@@ -45,7 +55,7 @@ func generate_data_variants() -> void:
 
 func generate_deck() -> void:
 	check_grid_validity()
-	var pair_count : int = round(grid_item_max() / 2.0)
+	var pair_count : int = round(max_item_count() / 2.0)
 	var data_variants_copy = data_variants.duplicate(true)
 	for i in pair_count:
 		if data_variants_copy.is_empty():
@@ -55,7 +65,6 @@ func generate_deck() -> void:
 		# create a pair
 		deck.append(data)
 		deck.append(data)
-
 
 func populate() -> void:
 	var card_spacing = Vector2.ONE * spacing
@@ -175,8 +184,10 @@ func tween_node_position(node : Node2D, end_position : Vector2) -> void:
 
 # CHECKS -----------------------------------------------------------------------
 func check_grid_validity() -> void:
-	if grid_item_max() % 2 != 0:
+	if not is_node_ready():
+		await ready
+	if max_item_count() % 2 != 0:
 		push_warning("Grid should have an even number of items.")
 
-func grid_item_max() -> int:
+func max_item_count() -> int:
 	return columns * rows

@@ -73,10 +73,12 @@ color_ramp = SubResource("Gradient_35olu")
 
 [node name="CardGrid" parent="." unique_id=1332015568 instance=ExtResource("1_awt3i")]
 unique_name_in_owner = true
-offset_left = 360.0
+offset_left = 274.0
 offset_top = 114.0
-offset_right = 1560.0
+offset_right = 1646.0
 offset_bottom = 966.0
+columns = 5
+rows = 2
 
 [node name="DebugOverlay" type="CanvasLayer" parent="." unique_id=1323865656]
 script = ExtResource("4_qe303")

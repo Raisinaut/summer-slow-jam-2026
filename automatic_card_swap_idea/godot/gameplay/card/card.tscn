@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dcpka2yohlos6" path="res://gameplay/card/card.gd" id="1_8mlfh"]
 [ext_resource type="Texture2D" uid="uid://bcqgrelbghla" path="res://assets/textures/tarot/front/00.png" id="2_kr7hv"]
 [ext_resource type="Texture2D" uid="uid://cvjswjjyld6rc" path="res://assets/textures/tarot/back.png" id="3_2csm4"]
+[ext_resource type="Texture2D" uid="uid://7xbw03vhxpkd" path="res://assets/textures/tarot/front/tarot_back.png" id="3_ltiga"]
 [ext_resource type="StyleBox" uid="uid://cp4jmotui0dpc" path="res://theme/card/card_glow.tres" id="4_jmtjd"]
 [ext_resource type="Texture2D" uid="uid://br5ym2xemb2ra" path="res://assets/textures/effects/whirl.png" id="5_2csm4"]
 [ext_resource type="Script" uid="uid://bcvw3mjepgimq" path="res://gameplay/card/whirl_effect.gd" id="6_ltiga"]
@@ -81,7 +82,7 @@ mouse_filter = 2
 texture_filter = 1
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("3_2csm4")
+texture = ExtResource("3_ltiga")
 expand_mode = 1
 stretch_mode = 5
 

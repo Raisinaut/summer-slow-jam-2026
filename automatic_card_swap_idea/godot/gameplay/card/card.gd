@@ -11,7 +11,9 @@ var data : CardData = null : set = set_data
 var matched : bool = false : 
 	set(val): 
 		matched = val
-		if matched: just_matched.emit()
+		if matched: 
+			just_matched.emit()
+			set_interaction_disabled(true)
 # TWEENS
 var scale_tween : Tween = null
 var mouseover_tween : Tween = null
@@ -32,10 +34,10 @@ var shake_duration : float = 0.25
 
 func _ready() -> void:
 	face_up = false
+	glow.modulate.a = 0.0
 	press_detection.pressed.connect(flip)
 	press_detection.mouse_entered.connect(_on_press_detection_mouse_entered)
 	press_detection.mouse_exited.connect(_on_press_detection_mouse_exited)
-	glow.modulate.a = 0.0
 
 func flip() -> void:
 	if animating_flip():
@@ -91,10 +93,10 @@ func shake() -> Tween:
 	return shake_tween
 
 func flash() -> Tween:
-	glow.modulate.a = 0.3
+	glow.modulate.a = 0.7
 	if flash_tween: flash_tween.kill()
-	flash_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
-	flash_tween.tween_property(glow, "modulate:a", 0.0, 0.5)
+	flash_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
+	flash_tween.tween_property(glow, "modulate:a", 0.0, 0.6)
 	return flash_tween
 
 func disappear() -> Tween:

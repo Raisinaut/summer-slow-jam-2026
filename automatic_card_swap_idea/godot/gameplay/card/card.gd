@@ -1,13 +1,17 @@
 class_name Card
 extends Node2D
 
-signal started_flip()
-signal ended_flip()
+signal started_flip
+signal ended_flip
+signal just_matched
 
 var face_up : bool = false : set = set_face_up
 var size : Vector2 : set = set_size
 var data : CardData = null : set = set_data
-var matched : bool = false
+var matched : bool = false : 
+	set(val): 
+		matched = val
+		if matched: just_matched.emit()
 # TWEENS
 var scale_tween : Tween = null
 var mouseover_tween : Tween = null

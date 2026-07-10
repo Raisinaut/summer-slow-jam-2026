@@ -38,3 +38,7 @@ border_width = 8.0
 script = ExtResource("1_p3vks")
 card_scene = ExtResource("2_h4w2n")
 card_textures = Array[Texture]([ExtResource("3_m1ii6"), ExtResource("4_3ti78"), ExtResource("5_7eeo5"), ExtResource("6_bsrv0"), ExtResource("7_xbql1"), ExtResource("8_oc0b8"), ExtResource("9_6y3yf"), ExtResource("10_mpsys"), ExtResource("11_rdjp1"), ExtResource("12_25wox"), ExtResource("13_uvdv7"), ExtResource("14_y6p37"), ExtResource("15_277gc"), ExtResource("16_s3nlf"), ExtResource("17_fs82q"), ExtResource("18_4wqbr"), ExtResource("19_uxv6n"), ExtResource("20_1tdjd"), ExtResource("21_kj5ub"), ExtResource("22_d8gg6"), ExtResource("23_p5be7"), ExtResource("24_mw6qv")])
+
+[node name="Cards" type="Node2D" parent="." unique_id=242925306]
+unique_name_in_owner = true
+y_sort_enabled = true

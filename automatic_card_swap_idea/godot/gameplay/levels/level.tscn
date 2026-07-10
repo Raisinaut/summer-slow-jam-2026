@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://nkx3pxwjthab"]
 
 [ext_resource type="Texture2D" uid="uid://bv3p38sw3f6mb" path="res://assets/textures/particles/star_07.png" id="1_2qjq1"]
+[ext_resource type="Script" uid="uid://3nm0j4cpwjv8" path="res://gameplay/levels/level.gd" id="1_35olu"]
 [ext_resource type="PackedScene" uid="uid://bevgixiukmncn" path="res://gameplay/card_grid/card_grid.tscn" id="1_awt3i"]
 
 [sub_resource type="Curve" id="Curve_4bmxb"]
@@ -12,6 +13,7 @@ offsets = PackedFloat32Array(0, 0.5, 1)
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="level" type="Node2D" unique_id=981335232]
+script = ExtResource("1_35olu")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=2094685529]
 layer = -10
@@ -46,6 +48,7 @@ scale_amount_curve = SubResource("Curve_4bmxb")
 color_ramp = SubResource("Gradient_35olu")
 
 [node name="CardGrid" parent="." unique_id=1332015568 instance=ExtResource("1_awt3i")]
+unique_name_in_owner = true
 offset_left = 360.0
 offset_top = 114.0
 offset_right = 1560.0

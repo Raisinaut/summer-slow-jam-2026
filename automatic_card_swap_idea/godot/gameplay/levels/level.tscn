@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://bv3p38sw3f6mb" path="res://assets/textures/particles/star_07.png" id="1_2qjq1"]
 [ext_resource type="Script" uid="uid://3nm0j4cpwjv8" path="res://gameplay/levels/level.gd" id="1_35olu"]
 [ext_resource type="PackedScene" uid="uid://bevgixiukmncn" path="res://gameplay/card_grid/card_grid.tscn" id="1_awt3i"]
+[ext_resource type="FontFile" uid="uid://dt5duracmsa8h" path="res://assets/fonts/Sometype_Mono/static/SometypeMono-Medium.ttf" id="4_4bmxb"]
+[ext_resource type="Script" uid="uid://dal1oawmia0yq" path="res://gameplay/levels/debug_overlay.gd" id="4_qe303"]
 
 [sub_resource type="Curve" id="Curve_4bmxb"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.8338266, 0.0, 0, 0]
@@ -11,6 +13,28 @@ point_count = 3
 [sub_resource type="Gradient" id="Gradient_35olu"]
 offsets = PackedFloat32Array(0, 0.5, 1)
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvnae"]
+content_margin_left = 18.0
+content_margin_right = 18.0
+bg_color = Color(0.16924527, 0.16924533, 0.16924518, 0)
+border_width_left = 4
+border_width_right = 4
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4bmxb"]
+content_margin_left = 18.0
+content_margin_right = 18.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_right = 4
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="level" type="Node2D" unique_id=981335232]
 script = ExtResource("1_35olu")
@@ -53,3 +77,33 @@ offset_left = 360.0
 offset_top = 114.0
 offset_right = 1560.0
 offset_bottom = 966.0
+
+[node name="DebugOverlay" type="CanvasLayer" parent="." unique_id=1323865656]
+script = ExtResource("4_qe303")
+
+[node name="MarginContainer" type="MarginContainer" parent="DebugOverlay" unique_id=532892556]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="ResetButton" type="Button" parent="DebugOverlay/MarginContainer" unique_id=1646620244]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_4bmxb")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_bvnae")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_4bmxb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bvnae")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4bmxb")
+theme_override_styles/focus = SubResource("StyleBoxFlat_bvnae")
+text = "Reset"

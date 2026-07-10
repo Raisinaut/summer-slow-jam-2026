@@ -3,8 +3,13 @@
 [ext_resource type="Script" uid="uid://dcpka2yohlos6" path="res://gameplay/card/card.gd" id="1_8mlfh"]
 [ext_resource type="Texture2D" uid="uid://nhbem8oawukj" path="res://icon.svg" id="1_tked8"]
 [ext_resource type="StyleBox" uid="uid://ckalkq62vh5xt" path="res://theme/card/card_panel.tres" id="2_es77v"]
+[ext_resource type="StyleBox" uid="uid://cp4jmotui0dpc" path="res://theme/card/card_glow.tres" id="4_jmtjd"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bvnae"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bvnae"]
+font_size = 150
+font_color = Color(0, 0, 0, 1)
 
 [node name="Card" type="Node2D" unique_id=38919468]
 script = ExtResource("1_8mlfh")
@@ -61,14 +66,23 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="FrontTexture" type="TextureRect" parent="Visuals/Panel/Front" unique_id=1437854727]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("1_tked8")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="TestLabel" type="Label" parent="Visuals/Panel/Front" unique_id=1272985121]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_bvnae")
+horizontal_alignment = 1
+
 [node name="Back" type="MarginContainer" parent="Visuals/Panel" unique_id=1880540779]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 10
@@ -83,6 +97,13 @@ mouse_filter = 2
 texture = ExtResource("1_tked8")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="Glow" type="Panel" parent="Visuals/Panel" unique_id=1472462518]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("4_jmtjd")
 
 [node name="Shadow" type="Panel" parent="Visuals" unique_id=889229480]
 unique_name_in_owner = true

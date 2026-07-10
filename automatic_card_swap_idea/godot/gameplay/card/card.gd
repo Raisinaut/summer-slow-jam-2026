@@ -1,17 +1,20 @@
 class_name Card
 extends Node2D
 
-var face_up : bool = false :
-	set(val):
-		face_up = val
-		front.visible = face_up
-		back.visible = not face_up
-		
+signal started_flip()
+signal ended_flip()
+
+var face_up : bool = false : set = set_face_up
 var scale_tween : Tween = null
 var mouseover_tween : Tween = null
-var size : Vector2 : set = set_size 
+var flash_tween : Tween = null
+var size : Vector2 : set = set_size
+var flip_duration : float = 0.4
+
+var data : CardData = null : set = set_data
 
 @onready var visuals: Control = %Visuals
+@onready var glow: Panel = %Glow
 @onready var panel: PanelContainer = %Panel
 @onready var shadow: Panel = %Shadow
 @onready var front: MarginContainer = %Front
@@ -19,25 +22,30 @@ var size : Vector2 : set = set_size
 @onready var press_detection: Button = %PressDetection
 
 func _ready() -> void:
-	face_up = face_up
+	face_up = false
 	press_detection.pressed.connect(flip)
 	press_detection.mouse_entered.connect(_on_press_detection_mouse_entered)
 	press_detection.mouse_exited.connect(_on_press_detection_mouse_exited)
+	glow.modulate.a = 0.0
 
 func flip() -> void:
 	if animating_flip():
 		return
+	started_flip.emit()
 	scale_tween = create_tween().set_trans(Tween.TRANS_SINE)
 	scale_tween.set_ease(Tween.EASE_IN)
-	scale_tween.tween_property(visuals, "scale:x", 0, 0.2)
+	scale_tween.tween_property(visuals, "scale:x", 0, flip_duration / 2)
 	scale_tween.set_ease(Tween.EASE_OUT)
-	scale_tween.tween_property(visuals, "scale:x", 1, 0.2)
+	scale_tween.tween_property(visuals, "scale:x", 1, flip_duration / 2)
 	await scale_tween.step_finished
 	face_up = not face_up
+	await scale_tween.step_finished
+	ended_flip.emit()
 
 func animating_flip() -> bool:
 	return scale_tween and scale_tween.is_running()
 
+## Update card size and sync related node sizes.
 func set_size(val) -> void:
 	panel.size = val
 	panel.position = -val * 0.5
@@ -52,11 +60,45 @@ func get_size() -> Vector2:
 func _on_press_detection_mouse_entered() -> void:
 	if mouseover_tween: mouseover_tween.kill()
 	mouseover_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
-	mouseover_tween.tween_property(panel, "offset_transform_position:y", -40, 0.1)
-	mouseover_tween.parallel().tween_property(panel, "offset_transform_scale", Vector2.ONE * 1.2, 0.1)
+	mouseover_tween.tween_property(panel, "offset_transform_position:y", -40, 0.15)
+	mouseover_tween.parallel().tween_property(panel, "offset_transform_scale", Vector2.ONE * 1.2, 0.15)
 
 func _on_press_detection_mouse_exited() -> void:
 	if mouseover_tween: mouseover_tween.kill()
 	mouseover_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
-	mouseover_tween.tween_property(panel, "offset_transform_position:y", 0, 0.1)
-	mouseover_tween.parallel().tween_property(panel, "offset_transform_scale", Vector2.ONE, 0.1)
+	mouseover_tween.tween_property(panel, "offset_transform_position:y", 0, 0.15)
+	mouseover_tween.parallel().tween_property(panel, "offset_transform_scale", Vector2.ONE, 0.15)
+
+func flash() -> Tween:
+	glow.modulate.a = 0.3
+	if flash_tween: flash_tween.kill()
+	flash_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
+	flash_tween.tween_property(glow, "modulate:a", 0.0, 0.8)
+	return flash_tween
+
+func set_interaction_disabled(disabled : bool) -> void:
+	if disabled:
+		press_detection.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		#tween_brightness(0.6)
+	else:
+		#tween_brightness(1.0)
+		press_detection.mouse_filter = Control.MOUSE_FILTER_STOP
+
+func tween_brightness(amount : float) -> void:
+	var t = create_tween()
+	t.tween_property(self, "modulate", Color(amount, amount, amount), 0.2)
+
+
+# SETTERS ----------------------------------------------------------------------
+func set_face_up(state) -> void:
+	face_up = state
+	front.visible = face_up
+	back.visible = not face_up
+	# disable clicking when face up
+	press_detection.disabled = face_up
+
+func set_data(val : CardData) -> void:
+	if not is_node_ready():
+		await ready
+	data = val
+	%TestLabel.text = str(data.value)

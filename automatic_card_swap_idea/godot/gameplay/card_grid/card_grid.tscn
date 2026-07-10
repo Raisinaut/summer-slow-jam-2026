@@ -7,14 +7,12 @@
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 183.0
-offset_top = 148.0
-offset_right = -183.0
-offset_bottom = -148.0
+offset_right = -1920.0
+offset_bottom = -1080.0
 grow_horizontal = 2
 grow_vertical = 2
 border_color = Color(0.5494804, 0.5610475, 1.92523e-07, 1)
 border_width = 8.0
 script = ExtResource("1_p3vks")
-columns = 6
 card_scene = ExtResource("2_h4w2n")
+variant_count = null

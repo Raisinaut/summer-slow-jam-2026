@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cljngxm14hkso" path="res://assets/textures/tarot/front/tarot_1.png" id="8_u1phi"]
 [ext_resource type="Texture2D" uid="uid://bcqgrelbghla" path="res://assets/textures/tarot/front/00.png" id="9_c6mru"]
 [ext_resource type="Shader" uid="uid://bf4fahpf537ou" path="res://shaders/palette_adapt.gdshader" id="9_x3pin"]
-[ext_resource type="Texture2D" uid="uid://bx5pi67tf2sew" path="res://assets/textures/palettes/palettes7.png" id="11_c6mru"]
+[ext_resource type="Texture2D" uid="uid://bdvrcf5oa0gpr" path="res://assets/textures/palettes/palettes4.png" id="11_c6mru"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rkly2"]
 particles_animation = true

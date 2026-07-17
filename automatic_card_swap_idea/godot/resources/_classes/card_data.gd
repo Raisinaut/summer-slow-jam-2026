@@ -1,4 +1,8 @@
 class_name CardData
 extends Resource
 
-@export var texture : Texture
+@export var front : Texture
+@export var action_name : String = ""
+
+func has_action() -> bool:
+	return action_name != ""

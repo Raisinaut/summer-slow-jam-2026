@@ -3,7 +3,7 @@ class_name CardGrid
 extends ReferenceRect
 
 signal attempted_match(correct : bool)
-#signal finished_match_animation(correct : bool)
+signal lockout_changed(state: bool)
 
 @export_range(0, 1, 1, "or_greater") var columns : int = 4 :
 	set(val): columns = val; check_grid_validity()
@@ -12,16 +12,16 @@ signal attempted_match(correct : bool)
 @export var spacing : int = 20
 @export var card_scene : PackedScene
 @export var card_textures : Array[Texture]
+@export var data_variants : Array[CardData] = []
 @export_range(0, 1, 1, "or_greater") var variant_count_override : int = 0
 
 @onready var cards: Node2D = %Cards
 
 var variant_count : int = 0
 var active_cards : Array[Card] = []
-var data_variants : Array[CardData] = []
 var deck : Array[CardData] = []
 #var card_coords : Dictionary[Vector2, Card] = {}
-var first_card : Card = null
+var first_card : Card = null 
 var second_card : Card = null
 
 
@@ -29,7 +29,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 	initialize_variant_count()
-	generate_data_variants()
+	#generate_data_variants() # for testing without premade resources
 	generate_deck()
 	populate()
 
@@ -50,7 +50,7 @@ func generate_data_variants() -> void:
 		variant_count = card_textures.size()
 	for i in variant_count:
 		var data = CardData.new()
-		data.texture = card_textures[i]
+		data.front = card_textures[i]
 		data_variants.append(data)
 
 func generate_deck() -> void:
@@ -111,7 +111,7 @@ func fit_vector_proportinally(original: Vector2, target: Vector2) -> Vector2:
 # MATCH HANDLING ---------------------------------------------------------------
 func attempt_match(card1 : Card, card2 : Card) -> void:
 	set_all_cards_interaction_disabled(true)
-	var correct : bool = card1.data.texture == card2.data.texture
+	var correct : bool = card1.data.front == card2.data.front
 	if correct:
 		await get_tree().create_timer(0.5).timeout
 		#correct_match()
@@ -124,15 +124,20 @@ func attempt_match(card1 : Card, card2 : Card) -> void:
 	set_all_cards_interaction_disabled(false)
 
 func correct_match() -> void:
-	# animate and delete
-	var first_flash = first_card.flash()
-	second_card.flash().finished.connect(second_card.disappear)
-	first_flash.finished.connect(first_card.disappear)
-	#first_flash.finished.connect(finished_match_animation.emit.bind(true))
-	await first_flash.finished
+	var card_reference = first_card
 	# set to matched
 	first_card.matched = true
 	second_card.matched = true
+	# flash 
+	first_card.flash()
+	second_card.flash()
+	# delete
+	first_card.disappear()
+	await second_card.disappear()
+	# perform action
+	var action_tween = attempt_action(card_reference.data.action_name)
+	if action_tween:
+		await action_tween.finished
 	# reset
 	first_card = null
 	second_card = null
@@ -151,7 +156,12 @@ func incorrect_match() -> void:
 	_first_card.flip()
 	_second_card.flip()
 	await _second_card.ended_flip
-	#finished_match_animation.emit(false)
+
+func attempt_action(action : String) -> Tween:
+	if card_actions.keys().has(action):
+		return call(card_actions[action])
+	else:
+		return null
 
 func _on_card_started_flip(card: Card) -> void:
 	# only consider cards that are flipping toward face up,
@@ -164,23 +174,46 @@ func _on_card_started_flip(card: Card) -> void:
 		attempt_match(first_card, second_card)
 
 func set_all_cards_interaction_disabled(state : bool) -> void:
+	lockout_changed.emit(state)
 	for i in cards.get_children():
 		i.set_interaction_disabled(state)
 
-func swap_random_card_positions() -> void:
+
+# CARD ACTIONS -----------------------------------------------------------------
+var card_actions : Dictionary[String, String] = {
+	"swap" : "swap_random_card_positions",
+	"hint" : "hint_random_card"
+}
+
+# SWAP
+func swap_random_card_positions() -> Tween:
 	if active_cards.size() < 2:
 		push_warning("A random swap can only occur with two or more cards")
 		return
 	active_cards.shuffle()
-	swap_card_positions(active_cards[0], active_cards[1])
+	return swap_card_positions(active_cards[0], active_cards[1])
 
-func swap_card_positions(card1 : Card, card2 : Card) -> void:
+func swap_card_positions(card1 : Card, card2 : Card) -> Tween:
 	tween_node_position(card1, card2.global_position)
-	tween_node_position(card2, card1.global_position)
+	return tween_node_position(card2, card1.global_position)
 
-func tween_node_position(node : Node2D, end_position : Vector2) -> void:
+func tween_node_position(node : Node2D, end_position : Vector2) -> Tween:
 	var t = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	t.tween_property(node, "global_position", end_position, 0.6)
+	return t
+
+# HINT
+func hint_random_card() -> Tween:
+	if active_cards.size() < 1:
+		push_warning("Hint aborted. Requires at least one card on the field.")
+		return
+	active_cards.shuffle()
+	return hint_card(active_cards[0])
+
+func hint_card(card : Card) -> Tween:
+	return card.hint()
+
+
 
 # CHECKS -----------------------------------------------------------------------
 func check_grid_validity() -> void:

@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://jxj7xnxi08mm"]
 
 [ext_resource type="Script" uid="uid://dcpka2yohlos6" path="res://gameplay/card/card.gd" id="1_8mlfh"]
-[ext_resource type="Texture2D" uid="uid://bcqgrelbghla" path="res://assets/textures/tarot/front/00.png" id="2_kr7hv"]
+[ext_resource type="Shader" uid="uid://dlh64ehprmkm7" path="res://shaders/2d_perspective.gdshader" id="2_8o45e"]
 [ext_resource type="Texture2D" uid="uid://cvjswjjyld6rc" path="res://assets/textures/tarot/back.png" id="3_2csm4"]
+[ext_resource type="Texture2D" uid="uid://cljngxm14hkso" path="res://assets/textures/tarot/front/tarot_1.png" id="3_8o45e"]
 [ext_resource type="Texture2D" uid="uid://7xbw03vhxpkd" path="res://assets/textures/tarot/front/tarot_back.png" id="3_ltiga"]
 [ext_resource type="StyleBox" uid="uid://cp4jmotui0dpc" path="res://theme/card/card_glow.tres" id="4_jmtjd"]
 [ext_resource type="Texture2D" uid="uid://br5ym2xemb2ra" path="res://assets/textures/effects/whirl.png" id="5_2csm4"]
@@ -12,8 +13,17 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h4w2n"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c6mru"]
+shader = ExtResource("2_8o45e")
+shader_parameter/fov = 35.000001615
+shader_parameter/cull_back = false
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
 [node name="Card" type="Node2D" unique_id=38919468]
 script = ExtResource("1_8mlfh")
+back = ExtResource("3_ltiga")
 
 [node name="PressDetection" type="Button" parent="." unique_id=1850993434]
 unique_name_in_owner = true
@@ -58,31 +68,23 @@ offset_transform_enabled = true
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_h4w2n")
 
-[node name="Front" type="MarginContainer" parent="Visuals/Panel" unique_id=1838525817]
+[node name="Texture" type="TextureRect" parent="Visuals/Panel" unique_id=1437854727]
 unique_name_in_owner = true
+texture_filter = 5
+material = SubResource("ShaderMaterial_c6mru")
 layout_mode = 2
 mouse_filter = 2
-
-[node name="FrontTexture" type="TextureRect" parent="Visuals/Panel/Front" unique_id=1437854727]
-unique_name_in_owner = true
-texture_filter = 1
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("2_kr7hv")
+texture = ExtResource("3_8o45e")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Back" type="MarginContainer" parent="Visuals/Panel" unique_id=1880540779]
+[node name="HintTexture" type="TextureRect" parent="Visuals/Panel" unique_id=1648944894]
 unique_name_in_owner = true
 visible = false
+texture_filter = 5
 layout_mode = 2
 mouse_filter = 2
-
-[node name="BackTexture" type="TextureRect" parent="Visuals/Panel/Back" unique_id=1920200968]
-texture_filter = 1
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("3_ltiga")
+texture = ExtResource("3_8o45e")
 expand_mode = 1
 stretch_mode = 5
 
@@ -98,9 +100,18 @@ unique_name_in_owner = true
 modulate = Color(0, 0, 0, 0.40392157)
 z_index = -1
 texture_filter = 1
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -158.46552
+offset_right = 104.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("3_2csm4")
 

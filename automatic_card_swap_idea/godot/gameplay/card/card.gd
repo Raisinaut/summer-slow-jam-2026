@@ -5,6 +5,13 @@ signal started_flip
 signal ended_flip
 signal just_matched
 
+@export var front : Texture : 
+	set(val):
+		front = val
+		hint_texture.texture = front
+		if face_up: %Texture.texture = front
+@export var back : Texture
+
 var face_up : bool = false : set = set_face_up
 var size : Vector2 : set = set_size
 var data : CardData = null : set = set_data
@@ -14,27 +21,33 @@ var matched : bool = false :
 		if matched: 
 			just_matched.emit()
 			set_interaction_disabled(true)
+			
 # TWEENS
 var scale_tween : Tween = null
 var mouseover_tween : Tween = null
 var flash_tween : Tween = null
 var shake_tween : Tween = null
+var hint_tween : Tween = null
+
 # ANIMATION PROPERTIES
 var flip_duration : float = 0.4
 var shake_distance : float = 15
 var shake_duration : float = 0.25
+var hint_duration : float = 2.5
 
 @onready var visuals: Control = %Visuals
 @onready var glow: Panel = %Glow
 @onready var panel: PanelContainer = %Panel
+@onready var texture: TextureRect = %Texture
+@onready var hint_texture: TextureRect = %HintTexture
 @onready var shadow: TextureRect = %Shadow
-@onready var front: MarginContainer = %Front
-@onready var back: MarginContainer = %Back
 @onready var press_detection: Button = %PressDetection
 
 func _ready() -> void:
 	face_up = false
 	glow.modulate.a = 0.0
+	hint_texture.visible = true
+	hint_texture.modulate.a = 0.0
 	press_detection.pressed.connect(flip)
 	press_detection.mouse_entered.connect(_on_press_detection_mouse_entered)
 	press_detection.mouse_exited.connect(_on_press_detection_mouse_exited)
@@ -80,6 +93,8 @@ func _on_press_detection_mouse_exited() -> void:
 	mouseover_tween.tween_property(panel, "offset_transform_position:y", 0, 0.15)
 	mouseover_tween.parallel().tween_property(panel, "offset_transform_scale", Vector2.ONE, 0.15)
 
+
+# ANIMATIONS -------------------------------------------------------------------
 func shake() -> Tween:
 	if shake_tween: shake_tween.kill()
 	shake_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
@@ -98,6 +113,28 @@ func flash() -> Tween:
 	flash_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
 	flash_tween.tween_property(glow, "modulate:a", 0.0, 0.6)
 	return flash_tween
+
+func hint() -> Tween:
+	var max_alpha = 0.7
+	var flicker_count : int = 1
+	var flicker_duration : float = hint_duration * 0.8 / flicker_count
+	var fade_duration : float = hint_duration - flicker_duration
+	# reset tween
+	if hint_tween: hint_tween.kill()
+	hint_tween = create_tween().set_trans(Tween.TRANS_SINE)
+	# fade in
+	hint_tween.set_ease(Tween.EASE_OUT)
+	hint_tween.tween_property(hint_texture, "modulate:a", max_alpha, fade_duration * 0.5)
+	# flicker
+	hint_tween.set_ease(Tween.EASE_IN_OUT)
+	for i in flicker_count:
+		var flicker_alpha = max_alpha - 0.2
+		hint_tween.tween_property(hint_texture, "modulate:a", flicker_alpha, flicker_duration * 0.25)
+		hint_tween.tween_property(hint_texture, "modulate:a", max_alpha, flicker_duration * 0.25)
+	# fade out
+	hint_tween.set_ease(Tween.EASE_IN)
+	hint_tween.tween_property(hint_texture, "modulate:a", 0.0, fade_duration * 0.5)
+	return hint_tween
 
 func disappear() -> Tween:
 	await %WhirlEffect.grow().finished
@@ -124,13 +161,13 @@ func tween_brightness(amount : float) -> void:
 # SETTERS ----------------------------------------------------------------------
 func set_face_up(state) -> void:
 	face_up = state
-	front.visible = face_up
-	back.visible = not face_up
-	# disable clicking when face up
-	press_detection.disabled = face_up
+	# Show respective side of card
+	texture.texture = front if face_up else back
+	# disable clicking while face up
+	set_interaction_disabled(face_up)
 
 func set_data(val : CardData) -> void:
 	if not is_node_ready():
 		await ready
 	data = val
-	%FrontTexture.texture = data.texture
+	front = data.front

@@ -1,4 +1,5 @@
 @tool
+class_name CPUParticlesGrid2D
 extends CPUParticles2D
 
 @export_category("Emission Point Generation")

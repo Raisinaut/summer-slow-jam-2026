@@ -117,7 +117,7 @@ func flash() -> Tween:
 func hint() -> Tween:
 	var max_alpha = 0.7
 	var flicker_count : int = 1
-	var flicker_duration : float = hint_duration * 0.8 / flicker_count
+	var flicker_duration : float = hint_duration * 0.7 / flicker_count
 	var fade_duration : float = hint_duration - flicker_duration
 	# reset tween
 	if hint_tween: hint_tween.kill()

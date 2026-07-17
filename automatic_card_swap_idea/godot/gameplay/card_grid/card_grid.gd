@@ -46,7 +46,7 @@ func initialize_variant_count() -> void:
 func generate_data_variants() -> void:
 	card_textures.shuffle()
 	if variant_count > card_textures.size():
-		push_error("Variant_count should not be greater than the number of card textures")
+		push_error("variant_count should not be greater than the number of card textures")
 		variant_count = card_textures.size()
 	for i in variant_count:
 		var data = CardData.new()
@@ -76,7 +76,7 @@ func populate() -> void:
 			var c = create_card(draw_shuffled_card_data())
 			var coords = Vector2(x, y)
 			#card_coords[coords] = c
-			c.position = card_area * coords + card_center_offset
+			c.global_position = card_area * coords + card_center_offset
 			c.ready.connect(maximize_card_size.bind(c, max_card_size))
 			c.started_flip.connect(_on_card_started_flip.bind(c))
 			c.just_matched.connect(active_cards.erase.bind(c))
@@ -121,6 +121,7 @@ func attempt_match(card1 : Card, card2 : Card) -> void:
 		#incorrect_match()
 		await incorrect_match()
 	attempted_match.emit(correct)
+	print("match")
 	set_all_cards_interaction_disabled(false)
 
 func correct_match() -> void:
@@ -215,7 +216,7 @@ func hint_card(card : Card) -> Tween:
 
 
 
-# CHECKS -----------------------------------------------------------------------
+# UTILITY ----------------------------------------------------------------------
 func check_grid_validity() -> void:
 	if not is_node_ready():
 		await ready
@@ -224,3 +225,13 @@ func check_grid_validity() -> void:
 
 func max_item_count() -> int:
 	return columns * rows
+
+func get_random_cards(qty: int) -> Array[Card]:
+	var card_array : Array[Card] = []
+	if qty > active_cards.size():
+		push_error("Not enough active cards to retrieve a quantity of ", qty)
+	else:
+		active_cards.shuffle()
+		for i in qty:
+			card_array.append(active_cards[i])
+	return card_array

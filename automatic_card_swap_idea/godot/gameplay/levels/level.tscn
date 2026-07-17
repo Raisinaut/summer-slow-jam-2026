@@ -2,19 +2,18 @@
 
 [ext_resource type="Script" uid="uid://3nm0j4cpwjv8" path="res://gameplay/levels/level.gd" id="1_35olu"]
 [ext_resource type="PackedScene" uid="uid://bevgixiukmncn" path="res://gameplay/card_grid/card_grid.tscn" id="1_awt3i"]
+[ext_resource type="Script" uid="uid://c8438fi6cvjry" path="res://gameplay/opponent/opponent.gd" id="2_5mggc"]
 [ext_resource type="Texture2D" uid="uid://pne1dtcnmwev" path="res://assets/textures/particles/pixel_star_sheet.png" id="2_067t3"]
 [ext_resource type="Script" uid="uid://c515v3457u4xi" path="res://gameplay/levels/CPUParticlesGrid2D.gd" id="3_067t3"]
 [ext_resource type="FontFile" uid="uid://dt5duracmsa8h" path="res://assets/fonts/Sometype_Mono/static/SometypeMono-Medium.ttf" id="4_4bmxb"]
 [ext_resource type="Script" uid="uid://dal1oawmia0yq" path="res://gameplay/levels/debug_overlay.gd" id="4_qe303"]
-[ext_resource type="Script" uid="uid://b2187jctll4mi" path="res://resources/_classes/card_data.gd" id="5_wadyn"]
-[ext_resource type="Resource" uid="uid://b5gvw6uqjxfpe" path="res://resources/cards/0_fool.tres" id="6_5mggc"]
-[ext_resource type="Resource" uid="uid://dwoti70apphj8" path="res://resources/cards/2_high_priestess.tres" id="7_5mggc"]
+[ext_resource type="PackedScene" uid="uid://ccle7011x2ap8" path="res://gameplay/interface/interface.tscn" id="4_t62bn"]
 [ext_resource type="Texture2D" uid="uid://bkwjvfq8y3mcg" path="res://assets/textures/palettes/bw_palette.png" id="7_x3pin"]
 [ext_resource type="Script" uid="uid://d4exmh2c4d8jw" path="res://gameplay/camera/camera.gd" id="8_scvkp"]
 [ext_resource type="Texture2D" uid="uid://cljngxm14hkso" path="res://assets/textures/tarot/front/tarot_1.png" id="8_u1phi"]
 [ext_resource type="Texture2D" uid="uid://bcqgrelbghla" path="res://assets/textures/tarot/front/00.png" id="9_c6mru"]
 [ext_resource type="Shader" uid="uid://bf4fahpf537ou" path="res://shaders/palette_adapt.gdshader" id="9_x3pin"]
-[ext_resource type="Texture2D" uid="uid://bsedxrra4dp7" path="res://assets/textures/palettes/palettes5.png" id="11_c6mru"]
+[ext_resource type="Texture2D" uid="uid://bx5pi67tf2sew" path="res://assets/textures/palettes/palettes7.png" id="13_wadyn"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rkly2"]
 particles_animation = true
@@ -44,15 +43,32 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bvnae"]
 shader = ExtResource("9_x3pin")
-shader_parameter/palette = ExtResource("11_c6mru")
+shader_parameter/palette = ExtResource("13_wadyn")
 
 [node name="level" type="Node2D" unique_id=981335232]
 script = ExtResource("1_35olu")
 
-[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1874696147]
+[node name="Opponent" type="Node" parent="." unique_id=427445362 node_paths=PackedStringArray("card_grid")]
+unique_name_in_owner = true
+script = ExtResource("2_5mggc")
+card_grid = NodePath("../CardGrid")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1309715626]
+
+[node name="Interface" parent="UI" unique_id=1003739285 instance=ExtResource("4_t62bn")]
+unique_name_in_owner = true
+
+[node name="Camera" type="Camera2D" parent="." unique_id=405246072]
+unique_name_in_owner = true
+position = Vector2(960, 540)
+script = ExtResource("8_scvkp")
+
+[node name="BackgrondEffects" type="Node2D" parent="." unique_id=595064873]
+
+[node name="Parallax2D" type="Parallax2D" parent="BackgrondEffects" unique_id=1874696147]
 scroll_scale = Vector2(0.4, 0.4)
 
-[node name="Stars" type="CPUParticles2D" parent="Parallax2D" unique_id=630954953]
+[node name="Stars" type="CPUParticles2D" parent="BackgrondEffects/Parallax2D" unique_id=630954953]
 texture_filter = 1
 material = SubResource("CanvasItemMaterial_rkly2")
 position = Vector2(973, 540)
@@ -75,10 +91,10 @@ script = ExtResource("3_067t3")
 area_extents = Vector2(940, 500)
 point_spacing = 50
 
-[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=394575221]
+[node name="Parallax2D2" type="Parallax2D" parent="BackgrondEffects" unique_id=394575221]
 scroll_scale = Vector2(0.2, 0.2)
 
-[node name="Stars" type="CPUParticles2D" parent="Parallax2D2" unique_id=3366944]
+[node name="Stars" type="CPUParticles2D" parent="BackgrondEffects/Parallax2D2" unique_id=3366944]
 modulate = Color(1, 1, 1, 0.5019608)
 texture_filter = 1
 material = SubResource("CanvasItemMaterial_rkly2")
@@ -102,10 +118,10 @@ script = ExtResource("3_067t3")
 area_extents = Vector2(940, 500)
 point_spacing = 50
 
-[node name="Parallax2D3" type="Parallax2D" parent="." unique_id=2020009004]
+[node name="Parallax2D3" type="Parallax2D" parent="BackgrondEffects" unique_id=2020009004]
 scroll_scale = Vector2(0.1, 0.1)
 
-[node name="Stars" type="CPUParticles2D" parent="Parallax2D3" unique_id=1791418124]
+[node name="Stars" type="CPUParticles2D" parent="BackgrondEffects/Parallax2D3" unique_id=1791418124]
 modulate = Color(1, 1, 1, 0.5019608)
 texture_filter = 1
 material = SubResource("CanvasItemMaterial_rkly2")
@@ -131,23 +147,12 @@ point_spacing = 50
 
 [node name="CardGrid" parent="." unique_id=1332015568 instance=ExtResource("1_awt3i")]
 unique_name_in_owner = true
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 282.66675
-offset_top = 159.0
-offset_right = 1637.3333
-offset_bottom = 921.0
-columns = 5
+offset_left = 156.0
+offset_top = 145.0
+offset_right = 1520.0
+offset_bottom = 935.0
+columns = 6
 rows = 2
-data_variants = Array[ExtResource("5_wadyn")]([ExtResource("6_5mggc"), ExtResource("7_5mggc")])
-
-[node name="Camera" type="Camera2D" parent="." unique_id=405246072]
-unique_name_in_owner = true
-position = Vector2(960, 540)
-script = ExtResource("8_scvkp")
 
 [node name="BackgroundColor" type="CanvasLayer" parent="." unique_id=2094685529]
 layer = -10

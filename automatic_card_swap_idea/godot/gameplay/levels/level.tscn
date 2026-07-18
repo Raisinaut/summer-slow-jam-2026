@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cljngxm14hkso" path="res://assets/textures/tarot/front/tarot_1.png" id="8_u1phi"]
 [ext_resource type="Texture2D" uid="uid://bcqgrelbghla" path="res://assets/textures/tarot/front/00.png" id="9_c6mru"]
 [ext_resource type="Shader" uid="uid://bf4fahpf537ou" path="res://shaders/palette_adapt.gdshader" id="9_x3pin"]
-[ext_resource type="Texture2D" uid="uid://bx5pi67tf2sew" path="res://assets/textures/palettes/palettes7.png" id="13_wadyn"]
+[ext_resource type="Texture2D" uid="uid://baqney5r6n4g3" path="res://assets/textures/palettes/palettes6.png" id="14_5mggc"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rkly2"]
 particles_animation = true
@@ -43,7 +43,7 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bvnae"]
 shader = ExtResource("9_x3pin")
-shader_parameter/palette = ExtResource("13_wadyn")
+shader_parameter/palette = ExtResource("14_5mggc")
 
 [node name="level" type="Node2D" unique_id=981335232]
 script = ExtResource("1_35olu")
@@ -149,7 +149,7 @@ point_spacing = 50
 unique_name_in_owner = true
 offset_left = 156.0
 offset_top = 145.0
-offset_right = 1520.0
+offset_right = 1567.0
 offset_bottom = 935.0
 columns = 6
 rows = 2

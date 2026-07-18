@@ -4,6 +4,7 @@ extends ReferenceRect
 
 signal attempted_match(correct : bool)
 signal lockout_changed(state: bool)
+signal card_flipped(card : Card)
 
 @export_range(0, 1, 1, "or_greater") var columns : int = 4 :
 	set(val): columns = val; check_grid_validity()
@@ -121,7 +122,6 @@ func attempt_match(card1 : Card, card2 : Card) -> void:
 		#incorrect_match()
 		await incorrect_match()
 	attempted_match.emit(correct)
-	print("match")
 	set_all_cards_interaction_disabled(false)
 
 func correct_match() -> void:
@@ -165,14 +165,15 @@ func attempt_action(action : String) -> Tween:
 		return null
 
 func _on_card_started_flip(card: Card) -> void:
+	if card.face_up: return
 	# only consider cards that are flipping toward face up,
 	# not cards that are starting to flip while already facing up
-	if card.face_up: return
 	if !first_card:
 		first_card = card
 	elif !second_card:
 		second_card = card
 		attempt_match(first_card, second_card)
+	card_flipped.emit(card)
 
 func set_all_cards_interaction_disabled(state : bool) -> void:
 	lockout_changed.emit(state)

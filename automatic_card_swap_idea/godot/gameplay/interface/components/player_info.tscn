@@ -1,39 +1,53 @@
 [gd_scene format=3 uid="uid://bsy60aj35m02t"]
 
 [ext_resource type="Script" uid="uid://cmj5d2pumvmbs" path="res://gameplay/interface/components/scripts/player_info.gd" id="1_2t1gg"]
-[ext_resource type="Texture2D" uid="uid://1s87du572syk" path="res://assets/textures/portraits/placeholder.png" id="1_p3s06"]
 [ext_resource type="Shader" uid="uid://br2vxdpex88xf" path="res://shaders/noise_border.gdshader" id="2_bmcfc"]
 [ext_resource type="Texture2D" uid="uid://7xbw03vhxpkd" path="res://assets/textures/tarot/front/tarot_back.png" id="2_y7p88"]
+[ext_resource type="Texture2D" uid="uid://dogxsmpqnkiyu" path="res://assets/textures/portraits/Noir-portraits/36x36-bw-portraits-no-background.png" id="3_bmcfc"]
+[ext_resource type="Script" uid="uid://bkb8b00exo61c" path="res://gameplay/interface/components/atlas_texture_selector.gd" id="4_6nm0o"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjb5o"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_37yhw"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_6nm0o"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bmcfc"]
-width = 100
-height = 100
-noise = SubResource("FastNoiseLite_6nm0o")
+seed = 1
+frequency = 0.02
+fractal_octaves = 1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6nm0o"]
-width = 100
-height = 100
+width = 256
+height = 256
 noise = SubResource("FastNoiseLite_6nm0o")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m1k7l"]
+seed = 1
+frequency = 0.02
+offset = Vector3(-521.74, 369.57, 0)
+fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gy1nr"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_m1k7l")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bvnae"]
 shader = ExtResource("2_bmcfc")
-shader_parameter/spin_speed = 0.3
-shader_parameter/noise1 = SubResource("NoiseTexture2D_bmcfc")
-shader_parameter/noise2 = SubResource("NoiseTexture2D_6nm0o")
+shader_parameter/spin_speed = 0.2
+shader_parameter/offset1 = 0.0
+shader_parameter/noise1 = SubResource("NoiseTexture2D_6nm0o")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_gy1nr")
+shader_parameter/inner_radius = 0.85
+shader_parameter/outer_radius = 1.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_37yhw"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bvnae"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bmcfc"]
 width = 256
 height = 256
-noise = SubResource("FastNoiseLite_37yhw")
-seamless = true
+noise = SubResource("FastNoiseLite_6nm0o")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scvkp"]
+atlas = ExtResource("3_bmcfc")
+region = Rect2(0, 0, 36, 36)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvnae"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -41,6 +55,7 @@ border_width_left = 15
 border_width_top = 15
 border_width_right = 15
 border_width_bottom = 15
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -79,9 +94,11 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
 [node name="PortraitBack" type="TextureRect" parent="VBoxContainer/PanelContainer/MarginContainer/MarginContainer" unique_id=1700046648]
+unique_name_in_owner = true
+visible = false
 material = SubResource("ShaderMaterial_bvnae")
 layout_mode = 2
-texture = SubResource("NoiseTexture2D_bvnae")
+texture = SubResource("NoiseTexture2D_bmcfc")
 expand_mode = 1
 
 [node name="Portrait" type="TextureRect" parent="VBoxContainer/PanelContainer/MarginContainer/MarginContainer" unique_id=278425359]
@@ -89,9 +106,12 @@ unique_name_in_owner = true
 texture_filter = 1
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-texture = ExtResource("1_p3s06")
+texture = SubResource("AtlasTexture_scvkp")
 expand_mode = 1
 stretch_mode = 5
+script = ExtResource("4_6nm0o")
+cols = 4
+rows = 3
 
 [node name="Frame" type="Panel" parent="VBoxContainer/PanelContainer/MarginContainer" unique_id=1203455745]
 layout_mode = 2

@@ -29,11 +29,16 @@ func play() -> void:
 		else:
 			print("Unknown card doesn't match any in memory. Checking another.")
 			var c = select_unknown_card()
-			selection.append(c)
+			if c:
+				selection.append(c)
 	else:
 		print("Match is known in memory.")
-	for i : Card in selection:
-		await i.flip()
+	if selection:
+		print("Flipping selected cards")
+		for i : Card in selection:
+			await i.flip()
+	else:
+		print("No cards to select")
 	print()
 
 func get_known_match() -> Array[Card]:
@@ -65,6 +70,6 @@ func find_memory_match(card : Card) -> Card:
 func _on_card_grid_card_flipped(card : Card) -> void:
 	# add card to memory
 	if not card_memory.has(card):
+		card_memory.append(card)
 		# connect match signal to disregard in future consideration
 		card.just_matched.connect(card_memory.erase.bind(card))
-		card_memory.append(card)

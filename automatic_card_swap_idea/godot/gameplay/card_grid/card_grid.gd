@@ -2,7 +2,9 @@
 class_name CardGrid
 extends ReferenceRect
 
-signal attempted_match(correct : bool)
+signal matched_correct
+signal match_started(correct : bool)
+signal match_finished(correct : bool)
 signal lockout_changed(state: bool)
 signal card_flipped(card : Card)
 
@@ -113,6 +115,7 @@ func fit_vector_proportinally(original: Vector2, target: Vector2) -> Vector2:
 func attempt_match(card1 : Card, card2 : Card) -> void:
 	set_all_cards_interaction_disabled(true)
 	var correct : bool = card1.data.front == card2.data.front
+	match_started.emit(correct)
 	if correct:
 		await get_tree().create_timer(0.5).timeout
 		#correct_match()
@@ -121,7 +124,7 @@ func attempt_match(card1 : Card, card2 : Card) -> void:
 		await get_tree().create_timer(0.5).timeout
 		#incorrect_match()
 		await incorrect_match()
-	attempted_match.emit(correct)
+	match_finished.emit(correct)
 	set_all_cards_interaction_disabled(false)
 
 func correct_match() -> void:
@@ -132,6 +135,7 @@ func correct_match() -> void:
 	# flash 
 	first_card.flash()
 	second_card.flash()
+	matched_correct.emit()
 	# delete
 	first_card.disappear()
 	await second_card.disappear()
@@ -190,8 +194,8 @@ var card_actions : Dictionary[String, String] = {
 # SWAP
 func swap_random_card_positions() -> Tween:
 	if active_cards.size() < 2:
-		push_warning("A random swap can only occur with two or more cards")
-		return
+		push_warning("Swap aborted. Requires 2 or more cards on the field")
+		return null
 	active_cards.shuffle()
 	return swap_card_positions(active_cards[0], active_cards[1])
 
@@ -207,8 +211,8 @@ func tween_node_position(node : Node2D, end_position : Vector2) -> Tween:
 # HINT
 func hint_random_card() -> Tween:
 	if active_cards.size() < 1:
-		push_warning("Hint aborted. Requires at least one card on the field.")
-		return
+		print("Hint aborted. Requires at least one card on the field.")
+		return null
 	active_cards.shuffle()
 	return hint_card(active_cards[0])
 
@@ -236,3 +240,6 @@ func get_random_cards(qty: int) -> Array[Card]:
 		for i in qty:
 			card_array.append(active_cards[i])
 	return card_array
+
+func is_empty() -> bool:
+	return active_cards.is_empty()

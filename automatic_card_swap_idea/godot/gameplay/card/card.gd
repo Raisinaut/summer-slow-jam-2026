@@ -25,7 +25,6 @@ var matched : bool = false :
 # TWEENS
 var scale_tween : Tween = null
 var mouseover_tween : Tween = null
-var flash_tween : Tween = null
 var shake_tween : Tween = null
 var hint_tween : Tween = null
 
@@ -36,7 +35,7 @@ var shake_duration : float = 0.25
 var hint_duration : float = 2.5
 
 @onready var visuals: Control = %Visuals
-@onready var glow: Panel = %Glow
+@onready var glow = %Glow
 @onready var panel: PanelContainer = %Panel
 @onready var texture: TextureRect = %Texture
 @onready var hint_texture: TextureRect = %HintTexture
@@ -45,7 +44,6 @@ var hint_duration : float = 2.5
 
 func _ready() -> void:
 	face_up = false
-	glow.modulate.a = 0.0
 	hint_texture.visible = true
 	hint_texture.modulate.a = 0.0
 	press_detection.pressed.connect(flip)
@@ -108,11 +106,7 @@ func shake() -> Tween:
 	return shake_tween
 
 func flash() -> Tween:
-	glow.modulate.a = 0.7
-	if flash_tween: flash_tween.kill()
-	flash_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
-	flash_tween.tween_property(glow, "modulate:a", 0.0, 0.6)
-	return flash_tween
+	return glow.flash()
 
 func hint() -> Tween:
 	var max_alpha = 0.7

@@ -8,10 +8,6 @@ extends TextureRect
 @export var cols : int = 1
 @export var rows : int = 1
 
-
-func _ready() -> void:
-	print(index)
-
 func set_index(val) -> void:
 	val = clamp(val, 0, max_index())
 	index = val

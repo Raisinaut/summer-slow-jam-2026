@@ -19,37 +19,33 @@ func _ready() -> void:
 func play() -> void:
 	print("Opponent turn started.")
 	if card_grid.active_cards.is_empty():
-		print("No cards to choose from")
+		print("-No cards to choose from")
 		return
-	
-	print("memory: ", card_memory)
-	
-	# Attempt to find match
+	# Select Cards
 	selection = get_known_match()
 	if selection.is_empty():
-		print("No match known in memory.")
+		print("-No match known in memory.")
 		# Select an unknown card
-		print("Selecting unknown card")
+		print("-Selecting unknown card")
 		selection.append(select_unknown_card())
-		print("Selection: ", selection)
 		# Check if it matches one in memory
 		var memory_match : Card = find_memory_match(selection[0])
 		if memory_match:
-			print("Unknown card matches one in memory.")
+			print("-Unknown card matches one in memory.")
 			selection.append(memory_match)
 		else:
-			print("Unknown card doesn't match any in memory. Checking another.")
-			var c = select_unknown_card()
-			if c:
-				selection.append(c)
+			print("-Unknown card doesn't match any in memory.")
+			print("--Selecting another unknown card.")
+			var c : Card = select_unknown_card()
+			if c: selection.append(c)
 	else:
-		print("Match is known in memory.")
+		print("-Match is known in memory.")
 	if selection:
-		print("Flipping selected cards")
+		print("-Flipping selected cards")
 		for i : Card in selection:
 			await i.flip()
 	else:
-		print("No cards to select")
+		print("-No cards to select")
 	print()
 
 func get_known_match() -> Array[Card]:

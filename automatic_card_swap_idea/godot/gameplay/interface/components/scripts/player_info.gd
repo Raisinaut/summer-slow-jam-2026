@@ -17,7 +17,7 @@ var darken_tween : Tween = null
 func _ready() -> void:
 	panel_darken.visible = true # override hide in editor
 	portrait_back.visible = true # hidden in editor to avoid rendering shader
-	score = 0
+	#score = 0
 	portrait_back.material.set_shader_parameter("spin_speed", randf_range(0.2, 0.3))
 
 # SETTERS ----------------------------------------------------------------------

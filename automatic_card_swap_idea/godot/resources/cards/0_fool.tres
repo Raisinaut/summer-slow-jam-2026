@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_mvhvl")
+id = "fool"
 front = ExtResource("1_iu70p")
 action_name = "swap"
 metadata/_custom_type_script = "uid://b2187jctll4mi"

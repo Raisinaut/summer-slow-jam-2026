@@ -19,7 +19,7 @@ func _ready() -> void:
 ## or attempts to make a spontaneous match with [br]
 ## an already known card and an unknown card.
 func play() -> void:
-	#print("Opponent turn started.")
+	print("\nOpponent turn started.")
 	if card_grid.active_cards.is_empty():
 		#print("-No cards to choose from")
 		return
@@ -44,6 +44,7 @@ func play() -> void:
 	if selection:
 		for i : Card in selection:
 			await i.flip()
+			await get_tree().create_timer(0.2).timeout
 	
 	turns_till_forget -= 1
 	print()
@@ -63,18 +64,18 @@ func get_cards_by_least_recent() -> Array[Card]:
 	return cards
 
 func select_unknown_card() -> Card:
-	# Remove known cards from selection pool
-	var active_cards = card_grid.active_cards.duplicate(true)
-	for card in card_memory.keys():
-		active_cards.erase(card)
-	for card in selection:
-		active_cards.erase(card)
-	if active_cards.size() == 0:
+	# Duplicate and manipulate array of currently active cards
+	var available_cards = card_grid.active_cards.duplicate(true)
+	for card in card_memory.keys(): # Disregard known cards
+		available_cards.erase(card)
+	for card in selection: # Disgregard currently selected cards
+		available_cards.erase(card)
+	if available_cards.size() == 0:
 		push_error("Could not select unkown card. All active cards are known.")
 		return null
 	# select randomly from the remaining cards
-	active_cards.shuffle()
-	return active_cards[0]
+	available_cards.shuffle()
+	return available_cards[0]
 
 func find_memory_match(card : Card) -> Card:
 	if card == null: return null
@@ -83,26 +84,39 @@ func find_memory_match(card : Card) -> Card:
 			return i
 	return null
 
+func remember_card(card : Card) -> void:
+	print("Remember card: ", card.data.id)
+	card_memory[card] = memory_turn_lifetime
+	# Connect matched signal
+	if not card.just_matched.is_connected(_on_card_just_matched):
+		card.just_matched.connect(_on_card_just_matched.bind(card))
+
+func forget_card(card : Card) -> void:
+	print("Forget card: ", card.data.id)
+	card_memory.erase(card)
+
+func forget_least_recent_card() -> void:
+	# Only attempt to forget if there is a card to forget lol
+	if not card_memory.is_empty():
+		forget_card(get_cards_by_least_recent()[0])
+
+
+# SETTERS ----------------------------------------------------------------------
 func set_turns_till_forget(val) -> void:
 	if val < 0:
+		print("Memory turn cap reached.")
 		forget_least_recent_card()
 		val = memory_turn_lifetime
 	turns_till_forget = val
 
-func _on_card_grid_card_flipped(card : Card) -> void:
-	# add card to memory
-	if not card_memory.has(card):
-		card_memory[card] = memory_turn_lifetime
-		# Connect matched signal
-		if not card.just_matched.is_connected(_on_card_just_matched):
-			card.just_matched.connect(_on_card_just_matched.bind(card))
-		# Forget cards if beyond memory capacity
-		if card_memory.size() > max_memory_size:
-			forget_least_recent_card()
 
-func forget_least_recent_card() -> void:
-	print("forget card")
-	card_memory.erase(get_cards_by_least_recent()[0])
+# SIGNALS ----------------------------------------------------------------------
+func _on_card_grid_card_flipped(card : Card) -> void:
+	if card_memory.has(card):
+		forget_card(card)
+	remember_card(card)
+	if card_memory.size() > max_memory_size:
+		forget_least_recent_card()
 
 # Forget about cards that have matched
 func _on_card_just_matched(card : Card) -> void:

@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("2_7f5hg")
+id = "high_priestess"
 front = ExtResource("1_ihfgk")
 action_name = "hint"
 metadata/_custom_type_script = "uid://b2187jctll4mi"

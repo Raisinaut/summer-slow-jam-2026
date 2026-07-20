@@ -4,6 +4,7 @@ extends Node2D
 @onready var camera: = %Camera
 @onready var opponent: Opponent = %Opponent
 @onready var interface: = %Interface
+@onready var message_display: = %MessageDisplay
 
 @export var is_user_turn : bool = true : set = set_is_user_turn
 
@@ -44,7 +45,14 @@ func _on_card_grid_match_finished(_correct : bool) -> void:
 # SETTERS ----------------------------------------------------------------------
 func set_is_user_turn(val) -> void:
 	is_user_turn = val
-	if not is_user_turn:
-		opponent.play()
 	interface.field_input_disabled = not is_user_turn
+	# Show Message
+	if is_user_turn:
+		await message_display.display_message("YOUR TURN").finished
+	else:
+		await message_display.display_message("OPPONENT TURN").finished
+	
 	interface.highlight_user = is_user_turn
+	if not is_user_turn:
+		await get_tree().create_timer(1.0).timeout
+		opponent.play()

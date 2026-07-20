@@ -5,5 +5,6 @@
 
 [resource]
 script = ExtResource("1_wxmhe")
+id = "circle"
 front = ExtResource("1_6th7p")
 metadata/_custom_type_script = "uid://b2187jctll4mi"

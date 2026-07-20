@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dogxsmpqnkiyu" path="res://assets/textures/portraits/Noir-portraits/36x36-bw-portraits-no-background.png" id="3_bmcfc"]
 [ext_resource type="Script" uid="uid://bkb8b00exo61c" path="res://gameplay/interface/components/atlas_texture_selector.gd" id="4_6nm0o"]
 [ext_resource type="Texture2D" uid="uid://bqrqp8xmviaqf" path="res://assets/textures/tarot/front/tarot_back_empty.png" id="5_m1k7l"]
+[ext_resource type="FontFile" uid="uid://galv8moamnrk" path="res://assets/fonts/Elsie/Elsie-Black.ttf" id="6_gy1nr"]
 [ext_resource type="PackedScene" uid="uid://clwi6xerpkdr3" path="res://gameplay/card/panel_glow.tscn" id="6_m1k7l"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjb5o"]
@@ -80,6 +81,7 @@ corner_radius_bottom_left = 15
 expand_margin_top = 10.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_37yhw"]
+font = ExtResource("6_gy1nr")
 font_size = 24
 font_color = Color(0.23031491, 0.23031494, 0.23031494, 1)
 
@@ -89,6 +91,10 @@ corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
 
 [node name="PlayerInfo" type="PanelContainer" unique_id=441934147]
 theme_override_styles/panel = SubResource("StyleBoxEmpty_bjb5o")

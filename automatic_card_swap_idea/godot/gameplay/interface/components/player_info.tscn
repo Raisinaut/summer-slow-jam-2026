@@ -68,8 +68,19 @@ font_size = 50
 outline_size = 24
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37yhw"]
+content_margin_left = 10.0
+content_margin_top = 0.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+expand_margin_top = 10.0
+
 [sub_resource type="LabelSettings" id="LabelSettings_37yhw"]
 font_size = 24
+font_color = Color(0.23031491, 0.23031494, 0.23031494, 1)
 
 [node name="PlayerInfo" type="PanelContainer" unique_id=441934147]
 theme_override_styles/panel = SubResource("StyleBoxEmpty_bjb5o")
@@ -110,7 +121,8 @@ texture = SubResource("AtlasTexture_scvkp")
 expand_mode = 1
 stretch_mode = 5
 script = ExtResource("4_6nm0o")
-cols = 4
+index = 5
+cols = 5
 rows = 3
 
 [node name="Frame" type="Panel" parent="VBoxContainer/PanelContainer/MarginContainer" unique_id=1203455745]
@@ -125,6 +137,7 @@ size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ynhvx")
 
 [node name="CardTexture" type="TextureRect" parent="VBoxContainer/PanelContainer/PanelContainer" unique_id=1959899117]
+texture_filter = 1
 layout_mode = 2
 texture = ExtResource("2_y7p88")
 expand_mode = 1
@@ -136,7 +149,13 @@ text = "8"
 label_settings = SubResource("LabelSettings_bvnae")
 horizontal_alignment = 1
 
-[node name="NameLabel" type="Label" parent="VBoxContainer" unique_id=1353557119]
+[node name="NameContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1467552991]
+show_behind_parent = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_37yhw")
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/NameContainer" unique_id=1353557119]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Mx. Longname"

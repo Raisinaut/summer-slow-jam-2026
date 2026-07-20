@@ -7,6 +7,7 @@ extends Node
 
 var can_play : bool = false
 var card_memory : Array[Card] = []
+var selection : Array[Card] = []
 var memory_turn_lifetime : int = 2
 
 func _ready() -> void:
@@ -17,11 +18,21 @@ func _ready() -> void:
 ## an already known card and an unknown card.
 func play() -> void:
 	print("Opponent turn started.")
+	if card_grid.active_cards.is_empty():
+		print("No cards to choose from")
+		return
+	
+	print("memory: ", card_memory)
+	
 	# Attempt to find match
-	var selection : Array[Card] = get_known_match()
+	selection = get_known_match()
 	if selection.is_empty():
 		print("No match known in memory.")
+		# Select an unknown card
+		print("Selecting unknown card")
 		selection.append(select_unknown_card())
+		print("Selection: ", selection)
+		# Check if it matches one in memory
 		var memory_match : Card = find_memory_match(selection[0])
 		if memory_match:
 			print("Unknown card matches one in memory.")
@@ -54,9 +65,12 @@ func select_unknown_card() -> Card:
 	var active_cards = card_grid.active_cards.duplicate(true)
 	for card in card_memory:
 		active_cards.erase(card)
+	for card in selection:
+		active_cards.erase(card)
 	if active_cards.size() == 0:
 		push_error("Could not select unkown card. All active cards are known.")
 		return null
+	# select randomly from the remaining cards
 	active_cards.shuffle()
 	return active_cards[0]
 

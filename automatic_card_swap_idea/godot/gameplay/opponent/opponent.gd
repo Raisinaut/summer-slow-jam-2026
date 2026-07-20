@@ -4,11 +4,12 @@ extends Node
 @export var display_name : String
 @export var portrait_texture : Texture
 @export var card_grid : CardGrid
+@export var memory_max_size : int = 5
+@export var memory_turn_lifetime: int = 2
 
 var can_play : bool = false
-var card_memory : Array[Card] = []
+var card_memory : Dictionary[Card, int] = {}
 var selection : Array[Card] = []
-var memory_turn_lifetime : int = 2
 
 func _ready() -> void:
 	card_grid.card_flipped.connect(_on_card_grid_card_flipped)
@@ -44,13 +45,13 @@ func play() -> void:
 		print("-Flipping selected cards")
 		for i : Card in selection:
 			await i.flip()
-	else:
-		print("-No cards to select")
-	print()
 
 func get_known_match() -> Array[Card]:
-	for i in card_memory:
-		for j in card_memory:
+	# Retrieve card information by most recently seen
+	var cards = card_memory.keys()
+	cards.sort_custom(func(a, b): return card_memory[a] > card_memory[b])
+	for i in cards:
+		for j in cards:
 			if i != j:
 				if i.data.front == j.data.front:
 					return [i, j]
@@ -59,7 +60,7 @@ func get_known_match() -> Array[Card]:
 func select_unknown_card() -> Card:
 	# Remove known cards from selection pool
 	var active_cards = card_grid.active_cards.duplicate(true)
-	for card in card_memory:
+	for card in card_memory.keys():
 		active_cards.erase(card)
 	for card in selection:
 		active_cards.erase(card)
@@ -72,7 +73,7 @@ func select_unknown_card() -> Card:
 
 func find_memory_match(card : Card) -> Card:
 	if card == null: return null
-	for i : Card in card_memory:
+	for i : Card in card_memory.keys():
 		if i.data.front == card.data.front:
 			return i
 	return null
@@ -80,6 +81,9 @@ func find_memory_match(card : Card) -> Card:
 func _on_card_grid_card_flipped(card : Card) -> void:
 	# add card to memory
 	if not card_memory.has(card):
-		card_memory.append(card)
-		# connect match signal to disregard in future consideration
-		card.just_matched.connect(card_memory.erase.bind(card))
+		card_memory[card] = memory_turn_lifetime
+		card.just_matched.connect(_on_card_just_matched.bind(card))
+
+# Forget about cards that have matched
+func _on_card_just_matched(card : Card) -> void:
+	card_memory.erase(card)

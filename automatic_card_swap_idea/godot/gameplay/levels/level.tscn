@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://3nm0j4cpwjv8" path="res://gameplay/levels/level.gd" id="1_35olu"]
 [ext_resource type="PackedScene" uid="uid://bevgixiukmncn" path="res://gameplay/card_grid/card_grid.tscn" id="1_awt3i"]
-[ext_resource type="Script" uid="uid://c8438fi6cvjry" path="res://gameplay/opponent/opponent.gd" id="2_5mggc"]
 [ext_resource type="Texture2D" uid="uid://pne1dtcnmwev" path="res://assets/textures/particles/pixel_star_sheet.png" id="2_067t3"]
+[ext_resource type="PackedScene" uid="uid://bkw5jy7lmk3td" path="res://gameplay/opponent/opponent.tscn" id="2_pmgb3"]
 [ext_resource type="Script" uid="uid://c515v3457u4xi" path="res://gameplay/levels/CPUParticlesGrid2D.gd" id="3_067t3"]
 [ext_resource type="FontFile" uid="uid://dt5duracmsa8h" path="res://assets/fonts/Sometype_Mono/static/SometypeMono-Medium.ttf" id="4_4bmxb"]
 [ext_resource type="Script" uid="uid://dal1oawmia0yq" path="res://gameplay/levels/debug_overlay.gd" id="4_qe303"]
@@ -20,7 +20,6 @@
 [ext_resource type="Resource" uid="uid://bwhrtpb7wjw6l" path="res://resources/cards/zener_plus.tres" id="12_sfvc4"]
 [ext_resource type="Resource" uid="uid://dsbxntiexqwdf" path="res://resources/cards/zener_square.tres" id="13_swuu1"]
 [ext_resource type="Texture2D" uid="uid://baqney5r6n4g3" path="res://assets/textures/palettes/palettes6.png" id="14_5mggc"]
-[ext_resource type="Resource" uid="uid://r23e1y6k8qt5" path="res://resources/cards/zener_star.tres" id="14_mdrkn"]
 [ext_resource type="Resource" uid="uid://bn57xs5h0omvl" path="res://resources/cards/zener_waves.tres" id="15_ptk3l"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rkly2"]
@@ -56,9 +55,8 @@ shader_parameter/palette = ExtResource("14_5mggc")
 [node name="level" type="Node2D" unique_id=981335232]
 script = ExtResource("1_35olu")
 
-[node name="Opponent" type="Node" parent="." unique_id=427445362 node_paths=PackedStringArray("card_grid")]
+[node name="Opponent" parent="." unique_id=473762862 node_paths=PackedStringArray("card_grid") instance=ExtResource("2_pmgb3")]
 unique_name_in_owner = true
-script = ExtResource("2_5mggc")
 card_grid = NodePath("../CardGrid")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1309715626]
@@ -159,9 +157,9 @@ offset_left = 156.0
 offset_top = 145.0
 offset_right = 1567.0
 offset_bottom = 935.0
-columns = 7
+columns = 6
 rows = 2
-data_variants = Array[ExtResource("8_l3jmu")]([ExtResource("9_xbsua"), ExtResource("10_d105i"), ExtResource("11_2v4r7"), ExtResource("12_sfvc4"), ExtResource("13_swuu1"), ExtResource("14_mdrkn"), ExtResource("15_ptk3l")])
+data_variants = Array[ExtResource("8_l3jmu")]([ExtResource("9_xbsua"), ExtResource("10_d105i"), ExtResource("11_2v4r7"), ExtResource("12_sfvc4"), ExtResource("13_swuu1"), ExtResource("15_ptk3l")])
 
 [node name="BackgroundColor" type="CanvasLayer" parent="." unique_id=2094685529]
 layer = -10

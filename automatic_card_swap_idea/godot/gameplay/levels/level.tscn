@@ -9,11 +9,19 @@
 [ext_resource type="Script" uid="uid://dal1oawmia0yq" path="res://gameplay/levels/debug_overlay.gd" id="4_qe303"]
 [ext_resource type="PackedScene" uid="uid://ccle7011x2ap8" path="res://gameplay/interface/interface.tscn" id="4_t62bn"]
 [ext_resource type="Texture2D" uid="uid://bkwjvfq8y3mcg" path="res://assets/textures/palettes/bw_palette.png" id="7_x3pin"]
+[ext_resource type="Script" uid="uid://b2187jctll4mi" path="res://resources/_classes/card_data.gd" id="8_l3jmu"]
 [ext_resource type="Script" uid="uid://d4exmh2c4d8jw" path="res://gameplay/camera/camera.gd" id="8_scvkp"]
 [ext_resource type="Texture2D" uid="uid://cljngxm14hkso" path="res://assets/textures/tarot/front/tarot_1.png" id="8_u1phi"]
 [ext_resource type="Texture2D" uid="uid://bcqgrelbghla" path="res://assets/textures/tarot/front/00.png" id="9_c6mru"]
 [ext_resource type="Shader" uid="uid://bf4fahpf537ou" path="res://shaders/palette_adapt.gdshader" id="9_x3pin"]
+[ext_resource type="Resource" uid="uid://b5gvw6uqjxfpe" path="res://resources/cards/0_fool.tres" id="9_xbsua"]
+[ext_resource type="Resource" uid="uid://dwoti70apphj8" path="res://resources/cards/2_high_priestess.tres" id="10_d105i"]
+[ext_resource type="Resource" uid="uid://vh8q0pgubgq0" path="res://resources/cards/zener_circle.tres" id="11_2v4r7"]
+[ext_resource type="Resource" uid="uid://bwhrtpb7wjw6l" path="res://resources/cards/zener_plus.tres" id="12_sfvc4"]
+[ext_resource type="Resource" uid="uid://dsbxntiexqwdf" path="res://resources/cards/zener_square.tres" id="13_swuu1"]
 [ext_resource type="Texture2D" uid="uid://baqney5r6n4g3" path="res://assets/textures/palettes/palettes6.png" id="14_5mggc"]
+[ext_resource type="Resource" uid="uid://r23e1y6k8qt5" path="res://resources/cards/zener_star.tres" id="14_mdrkn"]
+[ext_resource type="Resource" uid="uid://bn57xs5h0omvl" path="res://resources/cards/zener_waves.tres" id="15_ptk3l"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rkly2"]
 particles_animation = true
@@ -151,8 +159,9 @@ offset_left = 156.0
 offset_top = 145.0
 offset_right = 1567.0
 offset_bottom = 935.0
-columns = 2
+columns = 7
 rows = 2
+data_variants = Array[ExtResource("8_l3jmu")]([ExtResource("9_xbsua"), ExtResource("10_d105i"), ExtResource("11_2v4r7"), ExtResource("12_sfvc4"), ExtResource("13_swuu1"), ExtResource("14_mdrkn"), ExtResource("15_ptk3l")])
 
 [node name="BackgroundColor" type="CanvasLayer" parent="." unique_id=2094685529]
 layer = -10

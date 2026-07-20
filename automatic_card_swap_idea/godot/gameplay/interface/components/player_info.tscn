@@ -176,5 +176,6 @@ layout_mode = 2
 
 [node name="PanelDarken" type="Panel" parent="." unique_id=494573351]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_82sw0")

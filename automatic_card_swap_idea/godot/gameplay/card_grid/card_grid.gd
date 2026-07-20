@@ -14,7 +14,6 @@ signal card_flipped(card : Card)
 	set(val): rows = val; check_grid_validity()
 @export var spacing : int = 20
 @export var card_scene : PackedScene
-@export var card_textures : Array[Texture]
 @export var data_variants : Array[CardData] = []
 @export_range(0, 1, 1, "or_greater") var variant_count_override : int = 0
 
@@ -45,16 +44,6 @@ func initialize_variant_count() -> void:
 	# Allow override to anything lower than max
 	if variant_count_override in range(1, max_variants):
 		variant_count = variant_count_override
-
-func generate_data_variants() -> void:
-	card_textures.shuffle()
-	if variant_count > card_textures.size():
-		push_error("variant_count should not be greater than the number of card textures")
-		variant_count = card_textures.size()
-	for i in variant_count:
-		var data = CardData.new()
-		data.front = card_textures[i]
-		data_variants.append(data)
 
 func generate_deck() -> void:
 	check_grid_validity()

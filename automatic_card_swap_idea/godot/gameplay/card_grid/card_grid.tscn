@@ -2,28 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dnr6f71t03qd5" path="res://gameplay/card_grid/card_grid.gd" id="1_p3vks"]
 [ext_resource type="PackedScene" uid="uid://jxj7xnxi08mm" path="res://gameplay/card/card.tscn" id="2_h4w2n"]
-[ext_resource type="Texture2D" uid="uid://cljngxm14hkso" path="res://assets/textures/tarot/front/tarot_1.png" id="3_m1ii6"]
-[ext_resource type="Texture2D" uid="uid://3wvvudkmynsc" path="res://assets/textures/tarot/front/tarot_2.png" id="4_3ti78"]
-[ext_resource type="Texture2D" uid="uid://brcvlgg1084jq" path="res://assets/textures/tarot/front/tarot_3.png" id="5_7eeo5"]
-[ext_resource type="Texture2D" uid="uid://bn3odh3saxh5n" path="res://assets/textures/tarot/front/tarot_4.png" id="6_bsrv0"]
-[ext_resource type="Texture2D" uid="uid://cq53lxsncihsh" path="res://assets/textures/tarot/front/tarot_5.png" id="7_xbql1"]
-[ext_resource type="Texture2D" uid="uid://kbbo01ygtjub" path="res://assets/textures/tarot/front/tarot_6.png" id="8_oc0b8"]
-[ext_resource type="Texture2D" uid="uid://uayp7rg8kk2x" path="res://assets/textures/tarot/front/tarot_7.png" id="9_6y3yf"]
-[ext_resource type="Texture2D" uid="uid://ddma4jau3f1rn" path="res://assets/textures/tarot/front/tarot_8.png" id="10_mpsys"]
-[ext_resource type="Texture2D" uid="uid://bdt43aiqollgw" path="res://assets/textures/tarot/front/tarot_9.png" id="11_rdjp1"]
-[ext_resource type="Texture2D" uid="uid://dukccnpeta0sj" path="res://assets/textures/tarot/front/tarot_10.png" id="12_25wox"]
-[ext_resource type="Texture2D" uid="uid://dxvkeb0iwb4eu" path="res://assets/textures/tarot/front/tarot_11.png" id="13_uvdv7"]
-[ext_resource type="Texture2D" uid="uid://brx0qb0g36ku6" path="res://assets/textures/tarot/front/tarot_12.png" id="14_y6p37"]
-[ext_resource type="Texture2D" uid="uid://rgq6g5rw3qrs" path="res://assets/textures/tarot/front/tarot_13.png" id="15_277gc"]
-[ext_resource type="Texture2D" uid="uid://b0txatm2ofdyj" path="res://assets/textures/tarot/front/tarot_14.png" id="16_s3nlf"]
-[ext_resource type="Texture2D" uid="uid://dcp3dd87gj2ks" path="res://assets/textures/tarot/front/tarot_15.png" id="17_fs82q"]
-[ext_resource type="Texture2D" uid="uid://d003suaqv383k" path="res://assets/textures/tarot/front/tarot_16.png" id="18_4wqbr"]
-[ext_resource type="Texture2D" uid="uid://c7wbj85lboata" path="res://assets/textures/tarot/front/tarot_17.png" id="19_uxv6n"]
-[ext_resource type="Texture2D" uid="uid://cs5ofwo8tsukc" path="res://assets/textures/tarot/front/tarot_18.png" id="20_1tdjd"]
-[ext_resource type="Texture2D" uid="uid://c5cwl4mcedvck" path="res://assets/textures/tarot/front/tarot_19.png" id="21_kj5ub"]
-[ext_resource type="Texture2D" uid="uid://b0qfn184bvy8g" path="res://assets/textures/tarot/front/tarot_20.png" id="22_d8gg6"]
-[ext_resource type="Texture2D" uid="uid://xog2dbqn2f16" path="res://assets/textures/tarot/front/tarot_21.png" id="23_p5be7"]
-[ext_resource type="Texture2D" uid="uid://blc7xxt6h43vn" path="res://assets/textures/tarot/front/tarot_22.png" id="24_mw6qv"]
 [ext_resource type="Script" uid="uid://b2187jctll4mi" path="res://resources/_classes/card_data.gd" id="25_7eeo5"]
 [ext_resource type="Resource" uid="uid://b5gvw6uqjxfpe" path="res://resources/cards/0_fool.tres" id="26_bsrv0"]
 [ext_resource type="Resource" uid="uid://dwoti70apphj8" path="res://resources/cards/2_high_priestess.tres" id="27_bsrv0"]
@@ -40,7 +18,6 @@ border_color = Color(0.5494804, 0.5610475, 1.92523e-07, 1)
 border_width = 8.0
 script = ExtResource("1_p3vks")
 card_scene = ExtResource("2_h4w2n")
-card_textures = Array[Texture]([ExtResource("3_m1ii6"), ExtResource("4_3ti78"), ExtResource("5_7eeo5"), ExtResource("6_bsrv0"), ExtResource("7_xbql1"), ExtResource("8_oc0b8"), ExtResource("9_6y3yf"), ExtResource("10_mpsys"), ExtResource("11_rdjp1"), ExtResource("12_25wox"), ExtResource("13_uvdv7"), ExtResource("14_y6p37"), ExtResource("15_277gc"), ExtResource("16_s3nlf"), ExtResource("17_fs82q"), ExtResource("18_4wqbr"), ExtResource("19_uxv6n"), ExtResource("20_1tdjd"), ExtResource("21_kj5ub"), ExtResource("22_d8gg6"), ExtResource("23_p5be7"), ExtResource("24_mw6qv")])
 data_variants = Array[ExtResource("25_7eeo5")]([ExtResource("26_bsrv0"), ExtResource("27_bsrv0")])
 
 [node name="Cards" type="Node2D" parent="." unique_id=242925306]

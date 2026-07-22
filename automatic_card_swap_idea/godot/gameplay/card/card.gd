@@ -42,6 +42,10 @@ var hint_duration : float = 2.5
 @onready var shadow: TextureRect = %Shadow
 @onready var press_detection: Button = %PressDetection
 
+# AUDIO
+@onready var match_sfx: VariableStreamPlayer2D = %MatchSFX
+
+
 func _ready() -> void:
 	face_up = false
 	hint_texture.visible = true
@@ -53,6 +57,7 @@ func _ready() -> void:
 func flip() -> void:
 	if animating_flip():
 		return
+	%FlipSFX.play_random()
 	started_flip.emit()
 	scale_tween = create_tween().set_trans(Tween.TRANS_SINE)
 	scale_tween.set_ease(Tween.EASE_IN)
@@ -80,6 +85,7 @@ func get_size() -> Vector2:
 	return panel.size
 
 func _on_press_detection_mouse_entered() -> void:
+	%HoverSFX.play_random()
 	if mouseover_tween: mouseover_tween.kill()
 	mouseover_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
 	mouseover_tween.tween_property(panel, "offset_transform_position:y", -40, 0.15)

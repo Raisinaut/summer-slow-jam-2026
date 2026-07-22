@@ -108,6 +108,7 @@ func attempt_match(card1 : Card, card2 : Card) -> void:
 	if correct:
 		await get_tree().create_timer(0.5).timeout
 		#correct_match()
+		AudioManager.play_match_effect()
 		await correct_match()
 	else:
 		await get_tree().create_timer(0.5).timeout
@@ -148,6 +149,7 @@ func incorrect_match() -> void:
 	await get_tree().create_timer(0.5).timeout
 	# flip back over
 	_first_card.flip()
+	await get_tree().create_timer(0.2).timeout
 	_second_card.flip()
 	await _second_card.ended_flip
 

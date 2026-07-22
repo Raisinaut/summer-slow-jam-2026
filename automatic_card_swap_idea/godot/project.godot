@@ -15,15 +15,25 @@ run/main_scene="uid://nkx3pxwjthab"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://c458g1p006rch"
+
 [autoload]
 
 GameManager="*uid://p2djfq32galt"
+AudioManager="*uid://cj44b1imc56q0"
+Screenshots="*uid://kj6n63bix0me"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/screenshot_tool/plugin.cfg")
 
 [physics]
 

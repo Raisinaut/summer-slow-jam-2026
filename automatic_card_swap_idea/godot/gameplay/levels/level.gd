@@ -46,13 +46,13 @@ func _on_card_grid_match_finished(_correct : bool) -> void:
 func set_is_user_turn(val) -> void:
 	is_user_turn = val
 	interface.field_input_disabled = not is_user_turn
+	interface.highlight_user = is_user_turn
 	# Show Message
 	if is_user_turn:
 		await message_display.display_message("YOUR TURN").finished
 	else:
 		await message_display.display_message("OPPONENT TURN").finished
 	
-	interface.highlight_user = is_user_turn
 	if not is_user_turn:
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(0.5).timeout
 		opponent.play()

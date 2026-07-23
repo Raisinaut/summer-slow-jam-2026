@@ -33,7 +33,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/replay_recorder/plugin.cfg", "res://addons/screenshot_tool/plugin.cfg")
+enabled=PackedStringArray("res://addons/screenshot_tool/plugin.cfg")
 
 [physics]
 

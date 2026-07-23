@@ -54,5 +54,5 @@ func set_is_user_turn(val) -> void:
 		await message_display.display_message("OPPONENT TURN").finished
 	
 	if not is_user_turn:
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(0.3).timeout
 		opponent.play()

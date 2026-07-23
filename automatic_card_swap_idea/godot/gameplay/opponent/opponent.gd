@@ -4,7 +4,7 @@ extends Node
 @export var display_name : String
 @export var portrait_texture : Texture
 @export var card_grid : CardGrid
-@export var max_memory_size : int = 3
+@export var max_memory_size : int = 4
 @export var memory_turn_lifetime: int = 2
 
 var can_play : bool = false

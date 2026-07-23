@@ -26,6 +26,9 @@ var deck : Array[CardData] = []
 var first_card : Card = null 
 var second_card : Card = null
 
+var correct_pause_duation : float = 0.5
+var incorrect_pause_duration : float = 0.7
+var card_flip_interval : float = 0.2
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -106,12 +109,12 @@ func attempt_match(card1 : Card, card2 : Card) -> void:
 	var correct : bool = card1.data.front == card2.data.front
 	match_started.emit(correct)
 	if correct:
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(correct_pause_duation).timeout
 		#correct_match()
 		AudioManager.play_match_effect()
 		await correct_match()
 	else:
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(incorrect_pause_duration).timeout
 		#incorrect_match()
 		await incorrect_match()
 	match_finished.emit(correct)
@@ -149,7 +152,7 @@ func incorrect_match() -> void:
 	await get_tree().create_timer(0.5).timeout
 	# flip back over
 	_first_card.flip()
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(card_flip_interval).timeout
 	_second_card.flip()
 	await _second_card.ended_flip
 

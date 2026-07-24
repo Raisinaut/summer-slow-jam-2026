@@ -18,11 +18,12 @@ config/icon="res://icon.svg"
 [audio]
 
 buses/default_bus_layout="uid://c458g1p006rch"
+driver/output_latency=20
 
 [autoload]
 
 GameManager="*uid://p2djfq32galt"
-AudioManager="*uid://cj44b1imc56q0"
+MusicManager="*uid://cj44b1imc56q0"
 Screenshots="*uid://kj6n63bix0me"
 
 [display]

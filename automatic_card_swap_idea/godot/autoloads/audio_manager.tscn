@@ -1,22 +1,13 @@
 [gd_scene format=3 uid="uid://cj44b1imc56q0"]
 
 [ext_resource type="Script" uid="uid://b3y7p2wmtr38v" path="res://autoloads/audio_manager.gd" id="1_alnp1"]
-[ext_resource type="AudioStream" uid="uid://51yfkw7cpull" path="res://assets/audio/music/musinova-background-minimal-acid-electronic-534027.wav" id="2_nb6j2"]
-[ext_resource type="AudioStream" uid="uid://bqvanso8584qv" path="res://assets/audio/sfx/match_effect.wav" id="3_nb6j2"]
-[ext_resource type="Script" uid="uid://dbiwe8njdj3hw" path="res://general/VariableStreamPlayer2D.gd" id="4_k2mv4"]
+[ext_resource type="AudioStream" uid="uid://w0lda506oaa2" path="res://assets/audio/music/background_music_with_effects.wav" id="2_nb6j2"]
 
-[node name="AudioManager" type="Node" unique_id=151795749]
+[node name="MusicManager" type="Node" unique_id=151795749]
 script = ExtResource("1_alnp1")
 main_music = ExtResource("2_nb6j2")
 
 [node name="CurrentPlayer" type="AudioStreamPlayer" parent="." unique_id=951823190]
 unique_name_in_owner = true
+volume_db = -2.0
 bus = &"Music"
-
-[node name="MatchSFX" type="AudioStreamPlayer2D" parent="." unique_id=299335426]
-unique_name_in_owner = true
-stream = ExtResource("3_nb6j2")
-attenuation = 0.002668047
-script = ExtResource("4_k2mv4")
-pitch_variance = 0.03
-metadata/_custom_type_script = "uid://dbiwe8njdj3hw"

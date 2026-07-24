@@ -5,9 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://pne1dtcnmwev" path="res://assets/textures/particles/pixel_star_sheet.png" id="2_067t3"]
 [ext_resource type="PackedScene" uid="uid://bkw5jy7lmk3td" path="res://gameplay/opponent/opponent.tscn" id="2_pmgb3"]
 [ext_resource type="Script" uid="uid://c515v3457u4xi" path="res://gameplay/levels/CPUParticlesGrid2D.gd" id="3_067t3"]
-[ext_resource type="FontFile" uid="uid://dt5duracmsa8h" path="res://assets/fonts/Sometype_Mono/static/SometypeMono-Medium.ttf" id="4_4bmxb"]
 [ext_resource type="PackedScene" uid="uid://d3g4l3c0fpus2" path="res://gameplay/interface/message_display.tscn" id="4_l3jmu"]
-[ext_resource type="Script" uid="uid://dal1oawmia0yq" path="res://gameplay/levels/debug_overlay.gd" id="4_qe303"]
 [ext_resource type="PackedScene" uid="uid://ccle7011x2ap8" path="res://gameplay/interface/interface.tscn" id="4_t62bn"]
 [ext_resource type="Texture2D" uid="uid://bkwjvfq8y3mcg" path="res://assets/textures/palettes/bw_palette.png" id="7_x3pin"]
 [ext_resource type="Script" uid="uid://b2187jctll4mi" path="res://resources/_classes/card_data.gd" id="8_l3jmu"]
@@ -21,6 +19,7 @@
 [ext_resource type="Resource" uid="uid://bwhrtpb7wjw6l" path="res://resources/cards/zener_plus.tres" id="12_sfvc4"]
 [ext_resource type="Resource" uid="uid://dsbxntiexqwdf" path="res://resources/cards/zener_square.tres" id="13_swuu1"]
 [ext_resource type="Resource" uid="uid://bn57xs5h0omvl" path="res://resources/cards/zener_waves.tres" id="15_ptk3l"]
+[ext_resource type="PackedScene" uid="uid://c3qyqsesyrgju" path="res://gameplay/interface/debug/debug_overlay.tscn" id="16_pmgb3"]
 [ext_resource type="Texture2D" uid="uid://bdvrcf5oa0gpr" path="res://assets/textures/palettes/palettes4.png" id="21_pmgb3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rkly2"]
@@ -28,26 +27,6 @@ particles_animation = true
 particles_anim_h_frames = 5
 particles_anim_v_frames = 1
 particles_anim_loop = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvnae"]
-content_margin_left = 18.0
-content_margin_right = 18.0
-bg_color = Color(0.16924527, 0.16924533, 0.16924518, 0)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4bmxb"]
-content_margin_left = 18.0
-content_margin_right = 18.0
-bg_color = Color(1, 1, 1, 1)
-border_width_left = 4
-border_width_right = 4
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bvnae"]
 shader = ExtResource("9_x3pin")
@@ -176,35 +155,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="DebugOverlay" type="CanvasLayer" parent="." unique_id=1323865656]
-script = ExtResource("4_qe303")
-
-[node name="MarginContainer" type="MarginContainer" parent="DebugOverlay" unique_id=532892556]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 50
-
-[node name="ResetButton" type="Button" parent="DebugOverlay/MarginContainer" unique_id=1646620244]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_4bmxb")
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_bvnae")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_4bmxb")
-theme_override_styles/hover = SubResource("StyleBoxFlat_bvnae")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4bmxb")
-theme_override_styles/focus = SubResource("StyleBoxFlat_bvnae")
-text = "Reset"
+[node name="DebugOverlay" parent="." unique_id=66341293 instance=ExtResource("16_pmgb3")]
 
 [node name="ScreenEffects" type="CanvasLayer" parent="." unique_id=2044301948]
 

@@ -18,6 +18,7 @@ signal card_flipped(card : Card)
 @export_range(0, 1, 1, "or_greater") var variant_count_override : int = 0
 
 @onready var cards: Node2D = %Cards
+@onready var match_sfx: VariableStreamPlayer = %MatchSFX
 
 var variant_count : int = 0
 var active_cards : Array[Card] = []
@@ -111,7 +112,7 @@ func attempt_match(card1 : Card, card2 : Card) -> void:
 	if correct:
 		await get_tree().create_timer(correct_pause_duation).timeout
 		#correct_match()
-		AudioManager.play_match_effect()
+		match_sfx.play_random()
 		await correct_match()
 	else:
 		await get_tree().create_timer(incorrect_pause_duration).timeout
